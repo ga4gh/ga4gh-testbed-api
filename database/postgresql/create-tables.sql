@@ -51,12 +51,8 @@ CREATE TABLE IF NOT EXISTS ga4gh_testbed_test
     fk_summary_id bigint NOT NULL,
     fk_phase_id bigint NOT NULL,
     foreign key (fk_summary_id) references ga4gh_testbed_summary(id),
-    foreign key (fk_phase_id) references ga4gh_testbed_phase(id)
-    
+    foreign key (fk_phase_id) references ga4gh_testbed_phase(id)  
 );
-
-
-
 
 CREATE TABLE IF NOT EXISTS ga4gh_testbed_case
 (
@@ -78,7 +74,3 @@ CREATE TABLE IF NOT EXISTS ga4gh_testbed_log_message
     fk_case_id integer NOT NULL,
     foreign key (fk_case_id) references ga4gh_testbed_case(id)
 );
-
-
-
-
