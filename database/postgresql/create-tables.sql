@@ -8,6 +8,15 @@ CREATE TABLE IF NOT EXISTS ga4gh_testbed_summary
     skipped integer NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS ga4gh_testbed_report_series
+(
+    id serial PRIMARY KEY,
+    organization_name text NOT NULL,
+    platform_name text NOT NULL,
+    platform_description text NOT NULL,
+    implementation_name text NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS ga4gh_testbed_report
 (
     id serial PRIMARY KEY,
@@ -16,14 +25,14 @@ CREATE TABLE IF NOT EXISTS ga4gh_testbed_report
     testbed_name text NOT NULL,
     testbed_version text NOT NULL,
     testbed_description text NOT NULL,
-    platform_name text NOT NULL,
-    platform_description text NOT NULL,
-    input_parameters text NOT NULL,
-    start_time text NOT NULL,
-    end_time text NOT NULL,
+    input_parameters json NOT NULL,
+    start_time timestamp without time zone NOT NULL,
+    end_time timestamp without time zone NOT NULL,
     status text NOT NULL,
     fk_summary_id integer NOT NULL,
-    foreign key (fk_summary_id) references ga4gh_testbed_summary(id)
+    fk_report_series_id integer NOT NULL,
+    foreign key (fk_summary_id) references ga4gh_testbed_summary(id),
+    foreign key (fk_report_series_id) references ga4gh_testbed_report_series(id)
 );
 
 CREATE TABLE IF NOT EXISTS ga4gh_testbed_phase
@@ -31,8 +40,8 @@ CREATE TABLE IF NOT EXISTS ga4gh_testbed_phase
     id serial PRIMARY KEY,
     phase_name text NOT NULL,
     phase_description text NOT NULL,
-    start_time text NOT NULL,
-    end_time text NOT NULL,
+    start_time timestamp without time zone NOT NULL,
+    end_time timestamp without time zone NOT NULL,
     status text NOT NULL,
     fk_summary_id integer NOT NULL,
     fk_report_id integer NOT NULL,
@@ -45,8 +54,8 @@ CREATE TABLE IF NOT EXISTS ga4gh_testbed_test
     id serial PRIMARY KEY,
     test_name text NOT NULL,
     test_description text NOT NULL,
-    start_time text NOT NULL,
-    end_time text NOT NULL,
+    start_time timestamp without time zone NOT NULL,
+    end_time timestamp without time zone NOT NULL,
     status text NOT NULL,
     fk_summary_id bigint NOT NULL,
     fk_phase_id bigint NOT NULL,
@@ -59,8 +68,8 @@ CREATE TABLE IF NOT EXISTS ga4gh_testbed_case
     id serial PRIMARY KEY,
     case_name text NOT NULL,
     case_description text NOT NULL,
-    start_time text NOT NULL,
-    end_time text NOT NULL,
+    start_time timestamp without time zone NOT NULL,
+    end_time timestamp without time zone NOT NULL,
     status text NOT NULL,
     message text NOT NULL,
     fk_test_id integer,
