@@ -2,7 +2,7 @@ package org.ga4gh.testbed.api.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -27,33 +28,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "report")
+@Table(name = "testbed_test")
 @Setter
 @Getter
 @NoArgsConstructor
-public class Report implements HibernateEntity<Integer> {
+public class TestbedTest implements HibernateEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column
-    private String schemaName;
+    private String testName;
 
     @Column
-    private String schemaVersion;
-
-    @Column
-    private String testbedName;
-
-    @Column
-    private String testbedVersion;
-
-    @Column
-    private String testbedDescription;
-
-    @Column
-    private Map<String, String> inputParameters;
+    private String testDescription;
 
     @Column
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -75,19 +64,17 @@ public class Report implements HibernateEntity<Integer> {
     @JoinColumn(name = "fk_summary_id", referencedColumnName = "id")
     private Summary summary;
 
-    @OneToMany(mappedBy = "report",
+    @OneToMany(mappedBy = "testbedTest",
                fetch = FetchType.LAZY,
                cascade = CascadeType.ALL,
                orphanRemoval = true)
-    private List<Phase> phases;
+    private List<TestbedCase> testbedCases;
 
-    /*
-    TODO: In a later branch, map Report to higher-level ReportSeries
     @ManyToOne
-    private ReportSeries reportSeries;
-     */
+    @JoinColumn(name = "fk_phase_id")
+    private Phase phase;
 
     public void loadRelations() {
-        Hibernate.initialize(getPhases());
+        Hibernate.initialize(getTestbedCases());
     }
 }

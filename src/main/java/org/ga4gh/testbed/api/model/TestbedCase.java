@@ -2,7 +2,6 @@ package org.ga4gh.testbed.api.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -27,33 +26,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "report")
+@Table(name = "testbed_case")
 @Setter
 @Getter
 @NoArgsConstructor
-public class Report implements HibernateEntity<Integer> {
+public class TestbedCase implements HibernateEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column
-    private String schemaName;
+    private String caseName;
 
     @Column
-    private String schemaVersion;
-
-    @Column
-    private String testbedName;
-
-    @Column
-    private String testbedVersion;
-
-    @Column
-    private String testbedDescription;
-
-    @Column
-    private Map<String, String> inputParameters;
+    private String caseDescription;
 
     @Column
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -70,24 +57,20 @@ public class Report implements HibernateEntity<Integer> {
     @Column
     private Status status;
 
-    @OneToOne(cascade = CascadeType.ALL,
-              orphanRemoval = true)
-    @JoinColumn(name = "fk_summary_id", referencedColumnName = "id")
-    private Summary summary;
+    @Column
+    private String message;
 
-    @OneToMany(mappedBy = "report",
+    @OneToMany(mappedBy = "testbedCase",
                fetch = FetchType.LAZY,
                cascade = CascadeType.ALL,
                orphanRemoval = true)
-    private List<Phase> phases;
+    private List<LogMessage> logMessages;
 
-    /*
-    TODO: In a later branch, map Report to higher-level ReportSeries
     @ManyToOne
-    private ReportSeries reportSeries;
-     */
+    @JoinColumn(name = "fk_testbed_test_id")
+    private TestbedTest testbedTest;
 
     public void loadRelations() {
-        Hibernate.initialize(getPhases());
+        Hibernate.initialize(getLogMessages());
     }
 }

@@ -14,7 +14,7 @@ public class Reports {
 
     @GetMapping(path = "/{reportId:.+}")
     public Report getReport(
-        @PathVariable String reportId
+        @PathVariable Integer reportId
     ) {
         Report report = new Report();
         report.setId(reportId);
