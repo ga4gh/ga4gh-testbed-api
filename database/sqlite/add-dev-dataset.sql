@@ -1,3 +1,17 @@
+INSERT INTO specification VALUES (
+    'refget',
+    'refget',
+    'Reference sequence retrieval API',
+    'https://github.com/samtools/hts-specs',
+    'https://samtools.github.io/hts-specs/refget.html'
+), (
+    'rnaget',
+    'RNAget',
+    'Expression matrix retrieval API',
+    'https://github.com/ga4gh-rnaseq/schema',
+    'https://ga4gh-rnaseq.github.io/schema/docs/index.html'
+);
+
 INSERT INTO organization VALUES (
     0,
     'GA4GH',
@@ -11,8 +25,8 @@ INSERT INTO platform VALUES (
     0
 ), (
     1,
-    'drs starter kit',
-    'ga4gh starter kit for drs spec',
+    'RNAget starter kit',
+    'ga4gh starter kit for RNAget spec',
     0
 );
 
@@ -25,12 +39,17 @@ INSERT INTO testbed VALUES (
     'https://dockstore.org/containers/registry.hub.docker.com/ga4gh/refget-compliance-suite'
 ), (
     1,
-    'drs-compliance-suite',
-    'test compliance of drs services to specification',
-    'https://github.com',
+    'rnaget-compliance-suite',
+    'test compliance of RNAget services to specification',
+    'https://github.com/ga4gh-rnaseq/rnaget-compliance-suite',
     'https://hub.docker.com',
     'https://dockstore.org'
 );
+
+INSERT INTO testbed_version VALUES (0, '1.2.6', 0), (1, '1.0.0', 1);
+
+INSERT INTO specification_testbed VALUES (0, 0, 0), (1, 1, 1);
+INSERT INTO specification_platform VALUES (0, 0, 0), (1, 1, 1);
 
 Insert into ga4gh_testbed_report_series values (
     0,
