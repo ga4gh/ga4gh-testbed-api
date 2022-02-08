@@ -1,17 +1,50 @@
-Insert into ga4gh_testbed_report_series (
-	organization_name,
-	platform_name,
-	platform_description,
-	implementation_name
-) values (
-	'test_organization_1',
-	'refget starter kit',
-	'ga4gh starter kit for refget spec',
-	'dev'),(
-	'test_organization_1', 
-	'refget starter kit', 
-	'ga4gh starter kit for refget spec', 
-	'prod');
+INSERT INTO organization VALUES (
+    0,
+    'GA4GH',
+    'https://ga4gh.org'
+);
+
+INSERT INTO platform VALUES (
+    0,
+    'refget starter kit',
+    'ga4gh starter kit for refget spec',
+    0
+), (
+    1,
+    'drs starter kit',
+    'ga4gh starter kit for drs spec',
+    0
+);
+
+INSERT INTO testbed VALUES (
+    0,
+    'refget-compliance-suite',
+    'test compliance of refget services to specification',
+    'https://github.com/ga4gh/refget-compliance-suite',
+    'https://hub.docker.com/repository/docker/ga4gh/refget-compliance-suite',
+    'https://dockstore.org/containers/registry.hub.docker.com/ga4gh/refget-compliance-suite'
+), (
+    1,
+    'drs-compliance-suite',
+    'test compliance of drs services to specification',
+    'https://github.com',
+    'https://hub.docker.com',
+    'https://dockstore.org'
+);
+
+Insert into ga4gh_testbed_report_series values (
+    0,
+    'abc',
+    'def',
+    0,
+    0
+),(
+    1,
+    'abc',
+    'def',
+    1,
+    1
+);
 
 Insert into ga4gh_testbed_summary (
 	unknown,
@@ -64,10 +97,7 @@ Insert into ga4gh_testbed_summary (
 
 Insert into ga4gh_testbed_report (
 	schema_name,
-    schema_version ,
-    testbed_name ,
-    testbed_version ,
-    testbed_description ,
+    schema_version,
     input_parameters,
     start_time,
     end_time,
@@ -77,9 +107,6 @@ Insert into ga4gh_testbed_report (
 ) values (
 	'ga4gh-testbed-report',
 	'0.1.0',
-	'ga4gh-refget-complaince-suite',
-	'0.1.0',
-	'test refget v1 compliance',
 	'{ "url": "https://testsite.ga4gh.org/api"}',
 	'2021-10-20T12:00:00Z',
 	'2021-10-20T12:00:20Z',
