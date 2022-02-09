@@ -59,8 +59,8 @@ Insert into ga4gh_testbed_report_series values (
     0
 ),(
     1,
-    'abc',
-    'def',
+    'ghi',
+    'jkl',
     1,
     1
 );
