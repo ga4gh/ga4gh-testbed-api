@@ -2,7 +2,7 @@
 /* # USER / ORGANIZATION                            # */
 /* ################################################## */
 
-CREATE TABLE IF NOT EXISTS user
+CREATE TABLE IF NOT EXISTS github_user
 (
     github_id text PRIMARY KEY
 );
