@@ -1,13 +1,3 @@
-CREATE TABLE IF NOT EXISTS ga4gh_testbed_summary
-(
-    id serial PRIMARY KEY,
-    unknown integer NOT NULL,
-    passed integer NOT NULL,
-    warned integer NOT NULL,
-    failed integer NOT NULL,
-    skipped integer NOT NULL
-);
-
 /* ################################################## */
 /* # USER / ORGANIZATION                            # */
 /* ################################################## */
