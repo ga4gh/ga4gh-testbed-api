@@ -3,17 +3,20 @@ package org.ga4gh.testbed.api.model;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.criteria.CriteriaBuilder.Case;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -31,26 +34,17 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Report implements HibernateEntity<Integer> {
+public class Report implements HibernateEntity<UUID> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue
+    private UUID id;
 
     @Column
     private String schemaName;
 
     @Column
     private String schemaVersion;
-
-    @Column
-    private String testbedName;
-
-    @Column
-    private String testbedVersion;
-
-    @Column
-    private String testbedDescription;
 
     @Column
     private Map<String, String> inputParameters;
@@ -70,22 +64,31 @@ public class Report implements HibernateEntity<Integer> {
     @Column
     private Status status;
 
-    @OneToOne(cascade = CascadeType.ALL,
-              orphanRemoval = true)
-    @JoinColumn(name = "fk_summary_id", referencedColumnName = "id")
+    @OneToOne(
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    @JoinColumn(
+        name = "fk_summary_id",
+        referencedColumnName = "id"
+    )
     private Summary summary;
 
-    @OneToMany(mappedBy = "report",
-               fetch = FetchType.LAZY,
-               cascade = CascadeType.ALL,
-               orphanRemoval = true)
+    @OneToMany(
+        mappedBy = "report",
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
     private List<Phase> phases;
 
-    /*
-    TODO: In a later branch, map Report to higher-level ReportSeries
-    @ManyToOne
+    @ManyToOne(
+        fetch = FetchType.EAGER,
+        cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                   CascadeType.DETACH, CascadeType.REFRESH}
+    )
+    @JoinColumn(name = "fk_report_series_id")
     private ReportSeries reportSeries;
-     */
 
     public void loadRelations() {
         Hibernate.initialize(getPhases());
