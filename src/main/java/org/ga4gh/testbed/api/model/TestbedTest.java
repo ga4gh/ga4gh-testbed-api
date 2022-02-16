@@ -2,7 +2,6 @@ package org.ga4gh.testbed.api.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,28 +34,29 @@ import lombok.Setter;
 public class TestbedTest implements HibernateEntity<Integer> {
 
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column
+    @Column(name = "test_name")
     private String testName;
 
-    @Column
+    @Column(name = "test_description")
     private String testDescription;
 
-    @Column
+    @Column(name = "start_time")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
     private LocalDateTime startTime;
 
-    @Column
+    @Column(name = "end_time")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
     private LocalDateTime endTime;
 
-    @Column
+    @Column(name = "status")
     private Status status;
 
     @OneToOne(cascade = CascadeType.ALL,

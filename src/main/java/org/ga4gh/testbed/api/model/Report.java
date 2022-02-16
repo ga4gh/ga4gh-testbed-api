@@ -3,10 +3,8 @@ package org.ga4gh.testbed.api.model;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,17 +15,21 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import org.ga4gh.starterkit.common.constant.DateTimeConstants;
 import org.ga4gh.starterkit.common.hibernate.HibernateEntity;
+import org.ga4gh.testbed.api.utils.SerializeView;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -37,38 +39,46 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @TypeDef(name = "json", typeClass = JsonType.class)
-public class Report implements HibernateEntity<UUID> {
+public class Report implements HibernateEntity<String> {
 
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
     @GeneratedValue
-    private UUID id;
+    @JsonView(SerializeView.Always.class)
+    private String id;
 
-    @Column
+    @Column(name = "schema_name")
+    @JsonView(SerializeView.Always.class)
     private String schemaName;
 
-    @Column
+    @Column(name = "schema_version")
+    @JsonView(SerializeView.Always.class)
     private String schemaVersion;
 
-    // @Column(name = "input_parameters", columnDefinition = "json")
-    // @Convert(attributeName = "input_parameters", converter = JsonToMapConverter.class)
     @Type(type = "json")
-    @Column(columnDefinition = "jsonb")
+    @Column(name = "input_parameters", columnDefinition = "json")
+    @JsonView(SerializeView.Always.class)
     private Map<String, String> inputParameters;
 
-    @Column
+    @Column(name = "start_time")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
+    @JsonView(SerializeView.Always.class)
     private LocalDateTime startTime;
 
-    @Column
+    @Column(name = "end_time")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
+    @JsonView(SerializeView.Always.class)
     private LocalDateTime endTime;
 
-    @Column
+    @Column(name = "status")
+    @JsonView(SerializeView.Always.class)
     private Status status;
 
     @OneToOne(
@@ -79,6 +89,7 @@ public class Report implements HibernateEntity<UUID> {
         name = "fk_summary_id",
         referencedColumnName = "id"
     )
+    @JsonView(SerializeView.ReportFull.class)
     private Summary summary;
 
     @OneToMany(
@@ -87,6 +98,7 @@ public class Report implements HibernateEntity<UUID> {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
+    @JsonView(SerializeView.ReportFull.class)
     private List<Phase> phases;
 
     @ManyToOne(
@@ -95,6 +107,7 @@ public class Report implements HibernateEntity<UUID> {
                    CascadeType.DETACH, CascadeType.REFRESH}
     )
     @JoinColumn(name = "fk_report_series_id")
+    @JsonView(SerializeView.ReportFull.class)
     private ReportSeries reportSeries;
 
     public void loadRelations() {

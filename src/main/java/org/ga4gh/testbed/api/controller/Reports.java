@@ -1,7 +1,5 @@
 package org.ga4gh.testbed.api.controller;
 
-import java.util.UUID;
-
 import org.ga4gh.testbed.api.model.Report;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +14,7 @@ public class Reports {
 
     @GetMapping(path = "/{reportId:.+}")
     public Report getReport(
-        @PathVariable UUID reportId
+        @PathVariable String reportId
     ) {
         Report report = new Report();
         report.setId(reportId);

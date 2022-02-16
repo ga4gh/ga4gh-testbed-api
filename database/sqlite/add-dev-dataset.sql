@@ -64,13 +64,13 @@ insert into specification_platform values
     (1, 'rnaget', 'org.ga4gh.rnaget.starterkit');
 
 insert into report_series values (
-    '1edb5213-52a2-434f-a7b8-b101fea8fb30',
+    "1edb5213-52a2-434f-a7b8-b101fea8fb30",
     'abc',
     'def',
     'refget-compliance',
     'org.ga4gh.refget.starterkit'
 ),(
-    '483382e9-f92b-466d-9427-154d56a75fcf',
+    "483382e9-f92b-466d-9427-154d56a75fcf",
     'ghi',
     'jkl',
     'rnaget-compliance',
@@ -142,11 +142,11 @@ insert into report (
     'ga4gh-testbed-report',
     '0.1.0',
     '{ "url": "https://testsite.ga4gh.org/api"}',
-    '2021-10-20T12:00:00Z',
-    '2021-10-20T12:00:20Z',
+    "2021-10-20 12:00:00.000",
+    "2021-10-20 12:00:20.000",
     'UNKNOWN',
     1,
-    '1edb5213-52a2-434f-a7b8-b101fea8fb30'
+    "1edb5213-52a2-434f-a7b8-b101fea8fb30"
 );
 
 insert into phase (
@@ -160,24 +160,24 @@ insert into phase (
 ) values (
     'sequence',
     'refget sequence endpoint',
-    '2021-10-20T12:00:00Z',
-    '2021-10-20T12:00:05Z',
+    "2021-10-20 12:00:00.000",
+    "2021-10-20 12:00:05.000",
     'PASSED',
     2,
     '01d0e947-5975-4786-a755-5025fec7416d'
 ),(
     'metadata',
     'refget metadata endpoint',
-    '2021-10-20T12:00:05Z',
-    '2021-10-20T12:00:10Z',
+    "2021-10-20 12:00:05.000",
+    "2021-10-20 12:00:10.000",
     'PASSED',
     3,
     '01d0e947-5975-4786-a755-5025fec7416d'
 ),(
     'service-info',
     'refget service-info endpoint',
-    '2021-10-20T12:00:10Z',
-    '2021-10-20T12:00:15Z',
+    "2021-10-20 12:00:10.000",
+    "2021-10-20 12:00:15.000",
     'PASSED',
     4,
     '01d0e947-5975-4786-a755-5025fec7416d'
@@ -194,16 +194,16 @@ insert into testbed_test (
 ) values (
     'test_sequence_circular',
     'Test to check if server passes all the edge cases related to circular queries',
-    '2021-10-20T12:00:00Z',
-    '2021-10-20T12:00:03Z',
+    "2021-10-20 12:00:00.000",
+    "2021-10-20 12:00:03.000",
     'PASSED',
     5,
     1
 ),(
     'test_sequence_query_by_trunc512',
     'Test to check if server returns 200 using I test sequence trunc512 and appropriate headers if the server supports trunc512',
-    '2021-10-20T12:00:03Z',
-    '2021-10-20T12:00:06Z',
+    "2021-10-20 12:00:03.000",
+    "2021-10-20 12:00:06.000",
     'FAILED',
     6,
     1
@@ -220,16 +220,16 @@ insert into testbed_case (
 ) values (
     'case 1',
     'test for seq 1',
-    '2021-10-20T12:00:00Z',
-    '2021-10-20T12:00:01Z',
+    "2021-10-20 12:00:00.000",
+    "2021-10-20 12:00:01.000",
     'PASSED',
     'server reponds as expected',
     1
 ),(
     'case 2',
     'test for seq 2',
-    '2021-10-20T12:00:01Z',
-    '2021-10-20T12:00:02Z',
+    "2021-10-20 12:00:01.000",
+    "2021-10-20 12:00:02.000",
     'FAILED',
     'test case failed',
     1
@@ -246,16 +246,16 @@ insert into testbed_case (
 ) values (
     'case 1',
     'test with incorrect trunc512',
-    '2021-10-20T12:00:03Z',
-    '2021-10-20T12:00:04Z',
+    "2021-10-20 12:00:03.000",
+    "2021-10-20 12:00:04.000",
     'UNKNOWN',
     'unknown server response',
     2
 ),(
     'case 2',
     'test with correct trunc512',
-    '2021-10-20T12:00:04Z',
-    '2021-10-20T12:00:05Z',
+    "2021-10-20 12:00:04.000",
+    "2021-10-20 12:00:05.000",
     'WARNING',
     'server responds with a warning',
     2

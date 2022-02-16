@@ -1,12 +1,10 @@
 package org.ga4gh.testbed.api.model;
 
 import java.util.List;
-import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -30,13 +28,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ReportSeries implements HibernateEntity<UUID> {
+public class ReportSeries implements HibernateEntity<String> {
 
+    // @GeneratedValue
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    @GeneratedValue
     @JsonView(SerializeView.Always.class)
-    private UUID id;
+    private String id;
 
     @Column(name = "token_salt")
     @JsonView(SerializeView.Never.class)
@@ -50,14 +48,14 @@ public class ReportSeries implements HibernateEntity<UUID> {
                cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                           CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "fk_testbed_id")
-    @JsonView(SerializeView.Never.class)
+    @JsonView(SerializeView.ReportSeriesFull.class)
     private Testbed testbed;
 
     @ManyToOne(fetch = FetchType.EAGER,
                cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                           CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "fk_platform_id")
-    @JsonView(SerializeView.Never.class)
+    @JsonView(SerializeView.ReportSeriesFull.class)
     private Platform platform;
 
     @OneToMany(
@@ -66,7 +64,7 @@ public class ReportSeries implements HibernateEntity<UUID> {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    @JsonView(SerializeView.Never.class)
+    @JsonView(SerializeView.ReportSeriesFull.class)
     private List<Report> reports;
 
     public void loadRelations() {

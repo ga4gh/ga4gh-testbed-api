@@ -33,31 +33,32 @@ import lombok.Setter;
 public class TestbedCase implements HibernateEntity<Integer> {
 
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column
+    @Column(name = "case_name")
     private String caseName;
 
-    @Column
+    @Column(name = "case_description")
     private String caseDescription;
 
-    @Column
+    @Column(name = "start_time")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
     private LocalDateTime startTime;
 
-    @Column
+    @Column(name = "end_time")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
     private LocalDateTime endTime;
 
-    @Column
+    @Column(name = "status")
     private Status status;
 
-    @Column
+    @Column(name = "message")
     private String message;
 
     @OneToMany(mappedBy = "testbedCase",

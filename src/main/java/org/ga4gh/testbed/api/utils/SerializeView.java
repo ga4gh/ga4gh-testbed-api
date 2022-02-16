@@ -21,4 +21,12 @@ public class SerializeView {
     public static class OrganizationSimple extends Always {};
 
     public static class OrganizationFull extends OrganizationSimple {};
+
+    public static class ReportSeriesSimple extends Always {};
+
+    public static class ReportSeriesFull extends ReportSeriesSimple {};
+
+    public static class ReportSimple extends Always {};
+
+    public static class ReportFull extends ReportSimple {};
 }
