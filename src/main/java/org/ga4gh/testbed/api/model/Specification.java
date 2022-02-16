@@ -31,22 +31,23 @@ import lombok.Setter;
 public class Specification implements HibernateEntity<String> {
 
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
     @JsonView(SerializeView.Always.class)
     private String id;
 
-    @Column
+    @Column(name = "spec_name")
     @JsonView(SerializeView.Always.class)
     private String specName;
 
-    @Column
+    @Column(name = "spec_description")
     @JsonView(SerializeView.Always.class)
     private String specDescription;
 
-    @Column
+    @Column(name = "github_url")
     @JsonView(SerializeView.Always.class)
     private String githubUrl;
 
-    @Column
+    @Column(name = "documentation_url")
     @JsonView(SerializeView.Always.class)
     private String documentationUrl;
 
@@ -56,7 +57,7 @@ public class Specification implements HibernateEntity<String> {
         joinColumns = {@JoinColumn(name = "fk_specification_id")},
         inverseJoinColumns = {@JoinColumn(name = "fk_testbed_id")}
     )
-    @JsonView(SerializeView.Never.class)
+    @JsonView(SerializeView.SpecificationFull.class)
     private List<Testbed> testbeds;
 
     @ManyToMany
@@ -65,7 +66,7 @@ public class Specification implements HibernateEntity<String> {
         joinColumns = {@JoinColumn(name = "fk_specification_id")},
         inverseJoinColumns = {@JoinColumn(name = "fk_platform_id")}
     )
-    @JsonView(SerializeView.Never.class)
+    @JsonView(SerializeView.SpecificationFull.class)
     private List<Platform> platforms;
 
     public void loadRelations() {

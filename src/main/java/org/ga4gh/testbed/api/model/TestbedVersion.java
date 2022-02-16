@@ -8,7 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import org.ga4gh.starterkit.common.hibernate.HibernateEntity;
+import org.ga4gh.testbed.api.utils.SerializeView;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,12 +23,17 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TestbedVersion implements HibernateEntity<Integer> {
 
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
+    @JsonView(SerializeView.Always.class)
     private Integer id;
 
-    @Column
+    @Column(name = "testbed_version")
+    @JsonView(SerializeView.Always.class)
     private String testbedVersion;
 
     @ManyToOne(

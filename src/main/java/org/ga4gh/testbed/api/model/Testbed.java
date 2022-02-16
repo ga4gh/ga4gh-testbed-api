@@ -71,7 +71,7 @@ public class Testbed implements HibernateEntity<String> {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    @JsonView(SerializeView.Never.class)
+    @JsonView(SerializeView.TestbedFull.class)
     private List<ReportSeries> reportSeries;
 
     @OneToMany(
@@ -80,12 +80,12 @@ public class Testbed implements HibernateEntity<String> {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    @JsonView(SerializeView.Never.class)
+    @JsonView(SerializeView.TestbedFull.class)
     private List<TestbedVersion> testbedVersions;
 
     public void loadRelations() {
         Hibernate.initialize(getSpecifications());
-        // Hibernate.initialize(getReportSeries());
-        // Hibernate.initialize(getTestbedVersions());
+        Hibernate.initialize(getReportSeries());
+        Hibernate.initialize(getTestbedVersions());
     }
 }

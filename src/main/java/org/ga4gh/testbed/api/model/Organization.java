@@ -11,7 +11,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import org.ga4gh.starterkit.common.hibernate.HibernateEntity;
+import org.ga4gh.testbed.api.utils.SerializeView;
 import org.hibernate.Hibernate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,15 +27,21 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Organization implements HibernateEntity<String> {
 
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
+    @JsonView(SerializeView.Always.class)
     private String id;
 
-    @Column
+    @Column(name = "organization_name")
+    @JsonView(SerializeView.Always.class)
     private String organizationName;
 
-    @Column
+    @Column(name = "organization_url")
+    @JsonView(SerializeView.Always.class)
     private String organizationUrl;
 
     @ManyToMany
@@ -39,12 +50,14 @@ public class Organization implements HibernateEntity<String> {
         joinColumns = {@JoinColumn(name = "fk_organization_id")},
         inverseJoinColumns = {@JoinColumn(name = "fk_user_github_id")}
     )
+    @JsonView(SerializeView.Never.class)
     private List<GithubUser> githubUsers;
 
     @OneToMany(mappedBy = "organization",
                fetch = FetchType.LAZY,
                cascade = CascadeType.ALL,
                orphanRemoval = true)
+    @JsonView(SerializeView.Never.class)
     private List<Platform> platforms;
 
     public void loadRelations() {

@@ -1,12 +1,8 @@
 package org.ga4gh.testbed.api.controller;
 
-import java.util.UUID;
-
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.ga4gh.starterkit.common.hibernate.HibernateUtil;
-import org.ga4gh.testbed.api.model.Report;
+import org.ga4gh.testbed.api.model.Specification;
 import org.ga4gh.testbed.api.model.Testbed;
 import org.ga4gh.testbed.api.utils.SerializeView;
 import org.ga4gh.testbed.api.utils.hibernate.TestbedApiHibernateUtil;
@@ -22,26 +18,17 @@ public class TestController {
     @Autowired
     private TestbedApiHibernateUtil hibernateUtil;
 
-    @GetMapping(path = "/testbed")
-    @JsonView(SerializeView.TestbedSimple.class)
-    public Testbed testController() {
-        try {
-            Testbed testbed = hibernateUtil.readEntityObject(Testbed.class, "refget-compliance", false);
-            System.out.println(testbed.getId());
-            System.out.println(testbed.getTestbedName());
-            System.out.println(testbed.getTestbedDescription());
-            System.out.println(testbed.getRepoUrl());
-            System.out.println(testbed.getDockerhubUrl());
-            System.out.println(testbed.getDockstoreUrl());
-            
-            // ObjectMapper mapper = new ObjectMapper();
-            // System.out.println(mapper.writeValueAsString(testbed));
-            return testbed;
-        } catch (Exception ex) {
-            System.out.println("Error retrieving testbed");
-            System.out.println(ex);
-            System.out.println(ex.getMessage());
-        }
-        return null;
+    @GetMapping(path = "/specification")
+    @JsonView(SerializeView.SpecificationFull.class)
+    public Specification getExampleSpecification() {
+        return hibernateUtil.readEntityObject(Specification.class, "refget", true);
     }
+
+    @GetMapping(path = "/testbed")
+    @JsonView(SerializeView.TestbedFull.class)
+    public Testbed getExampleTestbed() {
+        return hibernateUtil.readEntityObject(Testbed.class, "refget-compliance", true);
+    }
+
+    
 }

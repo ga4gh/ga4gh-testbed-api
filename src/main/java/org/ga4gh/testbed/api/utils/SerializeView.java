@@ -6,8 +6,11 @@ public class SerializeView {
 
     public static class Never {};
 
+    public static class SpecificationSimple extends Always {};
+
+    public static class SpecificationFull extends SpecificationSimple {};
+
     public static class TestbedSimple extends Always {};
 
     public static class TestbedFull extends TestbedSimple {};
-    
 }
