@@ -49,7 +49,7 @@ public class Platform implements HibernateEntity<String> {
                cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                           CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "fk_organization_id")
-    @JsonView(SerializeView.Never.class)
+    @JsonView(SerializeView.PlatformFull.class)
     private Organization organization;
 
     @ManyToMany
@@ -58,7 +58,7 @@ public class Platform implements HibernateEntity<String> {
         joinColumns = {@JoinColumn(name = "fk_platform_id")},
         inverseJoinColumns = {@JoinColumn(name = "fk_specification_id")}
     )
-    @JsonView(SerializeView.Never.class)
+    @JsonView(SerializeView.PlatformFull.class)
     private List<Specification> specifications;
 
     @OneToMany(
@@ -67,7 +67,7 @@ public class Platform implements HibernateEntity<String> {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    @JsonView(SerializeView.Never.class)
+    @JsonView(SerializeView.PlatformFull.class)
     private List<ReportSeries> reportSeries;
 
     public void loadRelations() {

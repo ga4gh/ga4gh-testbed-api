@@ -2,6 +2,8 @@ package org.ga4gh.testbed.api.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import org.ga4gh.testbed.api.model.Organization;
+import org.ga4gh.testbed.api.model.Platform;
 import org.ga4gh.testbed.api.model.Specification;
 import org.ga4gh.testbed.api.model.Testbed;
 import org.ga4gh.testbed.api.utils.SerializeView;
@@ -30,5 +32,15 @@ public class TestController {
         return hibernateUtil.readEntityObject(Testbed.class, "refget-compliance", true);
     }
 
-    
+    @GetMapping(path = "/platform")
+    @JsonView(SerializeView.PlatformFull.class)
+    public Platform getExamplePlatform() {
+        return hibernateUtil.readEntityObject(Platform.class, "org.ga4gh.refget.starterkit", true);
+    }
+
+    @GetMapping(path = "/organization")
+    @JsonView(SerializeView.OrganizationFull.class)
+    public Organization getExampleOrganization() {
+        return hibernateUtil.readEntityObject(Organization.class, "org.ga4gh", true);
+    }
 }

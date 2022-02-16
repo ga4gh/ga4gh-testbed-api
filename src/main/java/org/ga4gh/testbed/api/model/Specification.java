@@ -1,7 +1,6 @@
 package org.ga4gh.testbed.api.model;
 
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,7 +15,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import org.ga4gh.starterkit.common.hibernate.HibernateEntity;
 import org.ga4gh.testbed.api.utils.SerializeView;
 import org.hibernate.Hibernate;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

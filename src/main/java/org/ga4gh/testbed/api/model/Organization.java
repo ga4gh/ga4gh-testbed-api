@@ -46,9 +46,9 @@ public class Organization implements HibernateEntity<String> {
 
     @ManyToMany
     @JoinTable(
-        name = "user_organization",
+        name = "github_user_organization",
         joinColumns = {@JoinColumn(name = "fk_organization_id")},
-        inverseJoinColumns = {@JoinColumn(name = "fk_user_github_id")}
+        inverseJoinColumns = {@JoinColumn(name = "fk_github_user_github_id")}
     )
     @JsonView(SerializeView.Never.class)
     private List<GithubUser> githubUsers;
@@ -57,7 +57,7 @@ public class Organization implements HibernateEntity<String> {
                fetch = FetchType.LAZY,
                cascade = CascadeType.ALL,
                orphanRemoval = true)
-    @JsonView(SerializeView.Never.class)
+    @JsonView(SerializeView.OrganizationFull.class)
     private List<Platform> platforms;
 
     public void loadRelations() {
