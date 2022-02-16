@@ -174,7 +174,6 @@ public class TestbedApiSpringConfig {
             add(TestbedTest.class);
             add(TestbedVersion.class);
         }};
-
         TestbedApiHibernateUtil hibernateUtil = new TestbedApiHibernateUtil();
         hibernateUtil.setAnnotatedClasses(annotatedClasses);
         hibernateUtil.setDatabaseProps(databaseProps);

@@ -54,11 +54,6 @@ public class Summary implements HibernateEntity<Integer> {
               orphanRemoval = true)
     private TestbedTest test;
 
-    @OneToOne(mappedBy = "summary",
-              cascade = CascadeType.ALL,
-              orphanRemoval = true)
-    private TestbedCase testCase;
-
     public void loadRelations() {
         
     }

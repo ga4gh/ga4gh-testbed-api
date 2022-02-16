@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,9 +21,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import org.ga4gh.starterkit.common.constant.DateTimeConstants;
 import org.ga4gh.starterkit.common.hibernate.HibernateEntity;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +37,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class Report implements HibernateEntity<UUID> {
 
     @Id
@@ -44,7 +50,10 @@ public class Report implements HibernateEntity<UUID> {
     @Column
     private String schemaVersion;
 
-    @Column
+    // @Column(name = "input_parameters", columnDefinition = "json")
+    // @Convert(attributeName = "input_parameters", converter = JsonToMapConverter.class)
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
     private Map<String, String> inputParameters;
 
     @Column

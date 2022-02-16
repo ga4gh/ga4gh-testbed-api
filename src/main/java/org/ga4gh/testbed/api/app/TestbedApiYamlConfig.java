@@ -1,7 +1,8 @@
 package org.ga4gh.testbed.api.app;
 
-import org.ga4gh.starterkit.common.config.DatabaseProps;
 import org.ga4gh.starterkit.common.config.ServerProps;
+import org.ga4gh.testbed.api.config.TestbedApiDatabaseProps;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,10 +11,10 @@ import lombok.Setter;
 public class TestbedApiYamlConfig {
 
     private ServerProps serverProps;
-    private DatabaseProps databaseProps;
+    private TestbedApiDatabaseProps databaseProps;
 
     public TestbedApiYamlConfig() {
         serverProps = new ServerProps();
-        databaseProps = new DatabaseProps();
+        databaseProps = new TestbedApiDatabaseProps();
     }
 }
