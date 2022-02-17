@@ -5,12 +5,13 @@ package org.ga4gh.testbed.api.app;
 
 import org.apache.commons.cli.Options;
 import org.ga4gh.starterkit.common.util.webserver.ServerPropertySetter;
+import org.ga4gh.testbed.api.config.TestbedApiServerPropertySetter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "org.ga4gh.testbed.api")
+@ComponentScan(basePackages = {"org.ga4gh.testbed.api","org.ga4gh.testbed.api.controller.TestSecurity"})
 public class TestbedApi {
     public static void main(String[] args) {
         boolean setupSuccess = setup(args);
@@ -23,7 +24,7 @@ public class TestbedApi {
 
     private static boolean setup(String[] args) {
         Options options = new TestbedApiSpringConfig().getCommandLineOptions();
-        ServerPropertySetter setter = new ServerPropertySetter();
+        ServerPropertySetter setter = new TestbedApiServerPropertySetter();
         return setter.setServerProperties(TestbedApiYamlConfigContainer.class, args, options, "config");
     }
 }
