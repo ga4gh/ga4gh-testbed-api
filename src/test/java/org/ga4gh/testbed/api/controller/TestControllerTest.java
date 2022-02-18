@@ -73,10 +73,8 @@ public class TestControllerTest extends AbstractTestNGSpringContextTests {
         requestAndAssert("/test/report-series", JSON_DIR + "report-series.json");
     }
 
-    /*
     @Test
     public void testGetExampleReport() throws Exception {
         requestAndAssert("/test/report", JSON_DIR + "report.json");
     }
-    */
 }
