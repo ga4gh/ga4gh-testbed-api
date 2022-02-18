@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -25,13 +27,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class LogMessage implements HibernateEntity<Integer> {
+public class LogMessage implements HibernateEntity<Long> {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonView(SerializeView.Never.class)
-    private Integer id;
+    private Long id;
 
     @Column(name = "message", nullable = false)
     @JsonView(SerializeView.Always.class)
@@ -40,6 +42,7 @@ public class LogMessage implements HibernateEntity<Integer> {
     @ManyToOne
     @JoinColumn(name = "fk_testbed_case_id")
     @JsonView(SerializeView.Never.class)
+    // @JsonBackReference
     private TestbedCase testbedCase;
 
     public void loadRelations() {

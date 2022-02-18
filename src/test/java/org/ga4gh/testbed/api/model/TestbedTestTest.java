@@ -13,24 +13,24 @@ public class TestbedTestTest {
     public Object[][] getData() {
         return new Object[][] {
             {
-                Integer.valueOf(0),
+                Long.valueOf(0),
                 "test_sequence_circular",
                 "Test to check if server passes all the edge cases related to circular queries",
                 LocalDateTime.now(),
                 LocalDateTime.now(),
                 Status.PASS,
                 new Summary() {{
-                    setId(0);
+                    setId(Long.valueOf(0));
                     setPassed(10);
                 }},
                 new ArrayList<TestbedCase>() {{
                     add(new TestbedCase() {{
-                        setId(0);
+                        setId(Long.valueOf(0));
                         setMessage("log message 1");
                     }});
                 }},
                 new Phase() {{
-                    setId(0);
+                    setId(Long.valueOf(0));
                     setStatus(Status.PASS);
                 }}
             }
@@ -38,7 +38,7 @@ public class TestbedTestTest {
     }
 
     @Test(dataProvider = "cases")
-    public void testTestbedTest(Integer id, String testName, String testDescription,
+    public void testTestbedTest(Long id, String testName, String testDescription,
         LocalDateTime startTime, LocalDateTime endTime, Status status,
         Summary summary, List<TestbedCase> cases, Phase phase) {
 

@@ -15,8 +15,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -40,13 +43,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class TestbedCase implements HibernateEntity<Integer> {
+public class TestbedCase implements HibernateEntity<Long> {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(SerializeView.Never.class)
-    private Integer id;
+    private Long id;
 
     @Column(name = "case_name", nullable = false)
     @JsonView(SerializeView.Always.class)
@@ -87,11 +90,13 @@ public class TestbedCase implements HibernateEntity<Integer> {
     @Column(name = "message")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL})
     @JsonView(SerializeView.ReportFull.class)
+    // @JsonManagedReference
     private List<String> logMessages;
     // private List<LogMessage> logMessages;
 
     @ManyToOne
     @JoinColumn(name = "fk_testbed_test_id")
+    @JsonBackReference
     @JsonView(SerializeView.Never.class)
     private TestbedTest testbedTest;
 

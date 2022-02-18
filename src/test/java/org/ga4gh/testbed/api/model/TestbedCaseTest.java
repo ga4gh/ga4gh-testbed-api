@@ -13,7 +13,7 @@ public class TestbedCaseTest {
     public Object[][] getData() {
         return new Object[][] {
             {
-                Integer.valueOf(0),
+                Long.valueOf(0),
                 "case 1",
                 "test for seq 1",
                 LocalDateTime.now(),
@@ -24,7 +24,7 @@ public class TestbedCaseTest {
                     add("log message 1");
                 }},
                 new TestbedTest() {{
-                    setId(0);
+                    setId(Long.valueOf(0));
                     setStatus(Status.PASS);
                 }}
             }
@@ -32,7 +32,7 @@ public class TestbedCaseTest {
     }
 
     @Test(dataProvider = "cases")
-    public void testTestbedCase(Integer id, String caseName, String caseDescription,
+    public void testTestbedCase(Long id, String caseName, String caseDescription,
         LocalDateTime startTime, LocalDateTime endTime, Status status,
         String message, List<String> logMessages, TestbedTest testbedTest) {
 

@@ -10,17 +10,17 @@ public class LogMessageTest {
     public Object[][] getData() {
         return new Object[][] {
             {
-                Integer.valueOf(0),
+                Long.valueOf(0),
                 "An example log message",
                 new TestbedCase() {{
-                    setId(100);
+                    setId(Long.valueOf(100));
                 }}
             }
         };
     }
 
     @Test(dataProvider = "cases")
-    public void testLogMessage(Integer id, String message, TestbedCase testbedCase) {
+    public void testLogMessage(Long id, String message, TestbedCase testbedCase) {
 
         LogMessage logMessage = new LogMessage();
         logMessage.loadRelations();

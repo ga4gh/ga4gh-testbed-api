@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -96,6 +97,7 @@ public class Report implements HibernateEntity<String> {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
+    @JsonManagedReference
     @JsonView(SerializeView.ReportFull.class)
     private List<Phase> phases;
 

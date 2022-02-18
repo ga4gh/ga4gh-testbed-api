@@ -10,7 +10,7 @@ public class SummaryTest {
     public Object[][] getData() {
         return new Object[][] {
             {
-                0,
+                Long.valueOf(0),
                 1,
                 2,
                 3,
@@ -26,7 +26,7 @@ public class SummaryTest {
     }
 
     @Test(dataProvider = "cases")
-    public void testSummary(Integer id, Integer unknown, Integer passed,
+    public void testSummary(Long id, Integer unknown, Integer passed,
         Integer warned, Integer failed, Integer skipped, Report report,
         Phase phase, TestbedTest testbedTest) {
 

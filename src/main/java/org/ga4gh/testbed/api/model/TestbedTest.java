@@ -14,8 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -38,13 +41,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class TestbedTest implements HibernateEntity<Integer> {
+public class TestbedTest implements HibernateEntity<Long> {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(SerializeView.Never.class)
-    private Integer id;
+    private Long id;
 
     @Column(name = "test_name", nullable = false)
     @JsonView(SerializeView.Always.class)
@@ -82,11 +85,13 @@ public class TestbedTest implements HibernateEntity<Integer> {
                fetch = FetchType.LAZY,
                cascade = CascadeType.ALL,
                orphanRemoval = true)
-               @JsonView(SerializeView.ReportFull.class)
+    @JsonManagedReference
+    @JsonView(SerializeView.ReportFull.class)
     private List<TestbedCase> cases;
 
     @ManyToOne
     @JoinColumn(name = "fk_phase_id")
+    @JsonBackReference
     @JsonView(SerializeView.Never.class)
     private Phase phase;
 
