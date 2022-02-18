@@ -25,7 +25,6 @@ jobs:
       run: | 
         sqlite3 -version
         make -version
-        make clean-all
         make sqlite-db-refresh
     - name: Running Tests
       run: "./gradlew test --tests=org.*"
