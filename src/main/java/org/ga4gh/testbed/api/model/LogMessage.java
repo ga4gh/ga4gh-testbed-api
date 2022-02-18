@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -42,7 +40,6 @@ public class LogMessage implements HibernateEntity<Long> {
     @ManyToOne
     @JoinColumn(name = "fk_testbed_case_id")
     @JsonView(SerializeView.Never.class)
-    // @JsonBackReference
     private TestbedCase testbedCase;
 
     public void loadRelations() {

@@ -2,7 +2,6 @@ package org.ga4gh.testbed.api.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -13,13 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -81,18 +77,12 @@ public class TestbedCase implements HibernateEntity<Long> {
     @JsonView(SerializeView.Always.class)
     private String message;
 
-    // @OneToMany(mappedBy = "testbedCase",
-               // fetch = FetchType.LAZY,
-               // cascade = CascadeType.ALL,
-               // orphanRemoval = true)
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "log_message", joinColumns = @JoinColumn(name = "fk_testbed_case_id"))
     @Column(name = "message")
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL})
     @JsonView(SerializeView.ReportFull.class)
-    // @JsonManagedReference
     private List<String> logMessages;
-    // private List<LogMessage> logMessages;
 
     @ManyToOne
     @JoinColumn(name = "fk_testbed_test_id")

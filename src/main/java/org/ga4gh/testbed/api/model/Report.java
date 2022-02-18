@@ -3,13 +3,10 @@ package org.ga4gh.testbed.api.model;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,7 +28,6 @@ import org.ga4gh.starterkit.common.constant.DateTimeConstants;
 import org.ga4gh.starterkit.common.hibernate.HibernateEntity;
 import org.ga4gh.testbed.api.utils.SerializeView;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import lombok.Getter;
@@ -48,8 +44,6 @@ import lombok.Setter;
 @TypeDef(name = "json", typeClass = JsonType.class)
 public class Report implements HibernateEntity<String> {
 
-    // @GeneratedValue(generator = "UUID")
-    // @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     @JsonView(SerializeView.Always.class)

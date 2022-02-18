@@ -8,7 +8,6 @@ import org.apache.commons.cli.Options;
 import org.ga4gh.starterkit.common.config.DatabaseProps;
 import org.ga4gh.starterkit.common.config.ServerProps;
 import org.ga4gh.starterkit.common.hibernate.HibernateEntity;
-import org.ga4gh.starterkit.common.requesthandler.BasicShowRequestHandler;
 import org.ga4gh.starterkit.common.util.CliYamlConfigLoader;
 import org.ga4gh.starterkit.common.util.DeepObjectMerger;
 import org.ga4gh.starterkit.common.util.logging.LoggingUtil;
