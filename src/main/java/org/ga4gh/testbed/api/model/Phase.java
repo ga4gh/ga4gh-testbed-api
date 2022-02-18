@@ -82,8 +82,8 @@ public class Phase implements HibernateEntity<Integer> {
                fetch = FetchType.LAZY,
                cascade = CascadeType.ALL,
                orphanRemoval = true)
-    @JsonView(SerializeView.Never.class) // TODO update this to serialize when report is requested
-    private List<TestbedTest> testbedTests;
+    @JsonView(SerializeView.ReportFull.class) // TODO update this to serialize when report is requested
+    private List<TestbedTest> tests;
 
     @ManyToOne
     @JoinColumn(name = "fk_report_id")
@@ -91,6 +91,6 @@ public class Phase implements HibernateEntity<Integer> {
     private Report report;
 
     public void loadRelations() {
-        Hibernate.initialize(getTestbedTests());
+        Hibernate.initialize(getTests());
     }
 }

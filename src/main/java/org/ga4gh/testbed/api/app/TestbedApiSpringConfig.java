@@ -8,6 +8,7 @@ import org.apache.commons.cli.Options;
 import org.ga4gh.starterkit.common.config.DatabaseProps;
 import org.ga4gh.starterkit.common.config.ServerProps;
 import org.ga4gh.starterkit.common.hibernate.HibernateEntity;
+import org.ga4gh.starterkit.common.requesthandler.BasicShowRequestHandler;
 import org.ga4gh.starterkit.common.util.CliYamlConfigLoader;
 import org.ga4gh.starterkit.common.util.DeepObjectMerger;
 import org.ga4gh.starterkit.common.util.logging.LoggingUtil;
@@ -30,6 +31,7 @@ import org.ga4gh.testbed.api.model.TestbedCase;
 import org.ga4gh.testbed.api.model.TestbedTest;
 import org.ga4gh.testbed.api.model.TestbedVersion;
 import org.ga4gh.testbed.api.utils.hibernate.TestbedApiHibernateUtil;
+import org.ga4gh.testbed.api.utils.requesthandler.report.ShowReportHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,6 +43,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
@@ -180,5 +183,17 @@ public class TestbedApiSpringConfig {
         hibernateUtil.setAnnotatedClasses(annotatedClasses);
         hibernateUtil.setDatabaseProps(databaseProps);
         return hibernateUtil;
+    }
+
+    /* ******************************
+     * REQUEST HANDLER
+     * ****************************** */
+
+    @Bean
+    @RequestScope
+    public ShowReportHandler showReportHandler(
+        @Autowired TestbedApiHibernateUtil hibernateUtil
+    ) {
+        return new ShowReportHandler();
     }
 }

@@ -20,11 +20,8 @@ public class TestbedCaseTest {
                 LocalDateTime.now(),
                 Status.PASS,
                 "server responds as expected",
-                new ArrayList<LogMessage>() {{
-                    add(new LogMessage() {{
-                        setId(0);
-                        setMessage("log message 1");
-                    }});
+                new ArrayList<String>() {{
+                    add("log message 1");
                 }},
                 new TestbedTest() {{
                     setId(0);
@@ -37,7 +34,7 @@ public class TestbedCaseTest {
     @Test(dataProvider = "cases")
     public void testTestbedCase(Integer id, String caseName, String caseDescription,
         LocalDateTime startTime, LocalDateTime endTime, Status status,
-        String message, List<LogMessage> logMessages, TestbedTest testbedTest) {
+        String message, List<String> logMessages, TestbedTest testbedTest) {
 
         TestbedCase testbedCase = new TestbedCase();
         testbedCase.loadRelations();

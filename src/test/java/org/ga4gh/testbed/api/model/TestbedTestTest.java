@@ -40,7 +40,7 @@ public class TestbedTestTest {
     @Test(dataProvider = "cases")
     public void testTestbedTest(Integer id, String testName, String testDescription,
         LocalDateTime startTime, LocalDateTime endTime, Status status,
-        Summary summary, List<TestbedCase> testbedCases, Phase phase) {
+        Summary summary, List<TestbedCase> cases, Phase phase) {
 
         TestbedTest testbedTest = new TestbedTest();
         testbedTest.loadRelations();
@@ -52,7 +52,7 @@ public class TestbedTestTest {
         testbedTest.setEndTime(endTime);
         testbedTest.setStatus(status);
         testbedTest.setSummary(summary);
-        testbedTest.setTestbedCases(testbedCases);
+        testbedTest.setCases(cases);
         testbedTest.setPhase(phase);
 
         Assert.assertEquals(testbedTest.getId(), id);
@@ -62,7 +62,7 @@ public class TestbedTestTest {
         Assert.assertEquals(testbedTest.getEndTime(), endTime);
         Assert.assertEquals(testbedTest.getStatus(), status);
         Assert.assertEquals(testbedTest.getSummary(), summary);
-        Assert.assertEquals(testbedTest.getTestbedCases(), testbedCases);
+        Assert.assertEquals(testbedTest.getCases(), cases);
         Assert.assertEquals(testbedTest.getPhase(), phase);
     }
 }
