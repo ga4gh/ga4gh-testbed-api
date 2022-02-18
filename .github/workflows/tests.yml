@@ -26,8 +26,7 @@ jobs:
         sqlite3 -version
         make -version
         make clean-all
-        make sqlite-db-build
-        make sqlite-db-populate-dev-dataset
+        make sqlite-db-refresh
     - name: Running Tests
       run: "./gradlew test --tests=org.*"
 
