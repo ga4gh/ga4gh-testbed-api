@@ -67,13 +67,6 @@ public class TestbedApiSpringConfig {
     public FilterRegistrationBean<AdminEndpointsFilter> adminEndpointsFilter() {
         return new FilterRegistrationBean<AdminEndpointsFilter>(new AdminEndpointsFilter(Integer.valueOf(serverAdminPort)));
     }
-    
-    /*
-    @Bean
-    public DrsCustomExceptionHandling customExceptionHandling() {
-        return new DrsCustomExceptionHandling();
-    }
-    */
 
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilter(

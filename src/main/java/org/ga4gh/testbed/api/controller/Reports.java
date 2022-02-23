@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import org.ga4gh.starterkit.common.exception.BadRequestException;
+import org.ga4gh.starterkit.common.exception.ResourceNotFoundException;
 import org.ga4gh.testbed.api.model.Report;
 import org.ga4gh.testbed.api.model.ReportSeries;
 import org.ga4gh.testbed.api.utils.SerializeView;
@@ -55,11 +56,15 @@ public class Reports {
         // Get the report series associated with this report
         ReportSeries reportSeries = hibernateUtil.readEntityObject(ReportSeries.class, reportSeriesId, false);
         if (reportSeries == null) {
-            throw new BadRequestException("No ReportSeries by id: " + reportSeriesId);
+            throw new ResourceNotFoundException("No ReportSeries by id: " + reportSeriesId);
         }
         report.setReportSeries(reportSeries);
 
-        // assign a random UUIDv4
+        // calculate the input token hash based on input token and salt
+
+        // compare the input token hash to the report series's token hash in db
+
+        // assign a random UUIDv4 to the report
         report.setId(UUID.randomUUID().toString());
         
         // create object

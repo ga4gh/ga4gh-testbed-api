@@ -53,12 +53,10 @@ public class TestbedApiHibernateUtil extends HibernateUtil {
             }
             session.save(newObject);
         } catch (Exception ex) {
-            System.out.println("Exception caught");
             // any errors need to be caught so the transaction can be closed
             endTransaction(session);
             throw ex;
         } finally {
-            System.out.println("Finally");
             endTransaction(session);
         }
     }
