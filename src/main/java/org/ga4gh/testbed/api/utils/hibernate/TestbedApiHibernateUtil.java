@@ -3,12 +3,9 @@ package org.ga4gh.testbed.api.utils.hibernate;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.EntityExistsException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
 import org.ga4gh.starterkit.common.hibernate.HibernateEntity;
 import org.ga4gh.starterkit.common.hibernate.HibernateUtil;
 import org.ga4gh.testbed.api.model.Phase;
@@ -41,24 +38,6 @@ public class TestbedApiHibernateUtil extends HibernateUtil {
         }
 
         return objects;
-    }
-
-    public <I extends Serializable, T extends HibernateEntity<I>> void createEntityObject(Class<T> entityClass, T newObject) throws EntityExistsException {
-        Session session = newTransaction();
-        try {
-            T existingObject = session.get(entityClass, newObject.getId());
-            if (existingObject != null) {
-                endTransaction(session);
-                throw new EntityExistsException("A(n) " + entityClass.getSimpleName() + " already exists at id " + newObject.getId());
-            }
-            session.save(newObject);
-        } catch (Exception ex) {
-            // any errors need to be caught so the transaction can be closed
-            endTransaction(session);
-            throw ex;
-        } finally {
-            endTransaction(session);
-        }
     }
 
     public Report readFullReport(String id) throws HibernateException {

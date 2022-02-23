@@ -25,7 +25,7 @@ public class ShowReportHandler extends BasicShowRequestHandler<String, Report> {
     public Report handleRequest() {
         Report report = getHiberateUtil().readFullReport(getId());
         if (report == null) {
-            throw new ResourceNotFoundException("No Report exists at id " + id);
+            throw new ResourceNotFoundException("No Report exists at id '" + id + "'");
         }
         return report;
     }

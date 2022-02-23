@@ -1,10 +1,7 @@
 package org.ga4gh.testbed.api.controller;
 
 import java.util.List;
-import java.util.UUID;
-
 import com.fasterxml.jackson.annotation.JsonView;
-
 import org.ga4gh.testbed.api.model.Report;
 import org.ga4gh.testbed.api.utils.SerializeView;
 import org.ga4gh.testbed.api.utils.hibernate.TestbedApiHibernateUtil;

@@ -3,7 +3,9 @@ package org.ga4gh.testbed.api.utils.requesthandler.report;
 import java.util.UUID;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.ga4gh.starterkit.common.exception.ConflictException;
 import org.ga4gh.starterkit.common.exception.ResourceNotFoundException;
+import org.ga4gh.starterkit.common.hibernate.exception.EntityExistsException;
 import org.ga4gh.starterkit.common.requesthandler.BasicCreateRequestHandler;
 import org.ga4gh.testbed.api.exception.UnauthorizedException;
 import org.ga4gh.testbed.api.model.Report;
@@ -57,7 +59,12 @@ public class CreateReportHandler extends BasicCreateRequestHandler<String, Repor
         report.setId(UUID.randomUUID().toString());
         
         // create object
-        hibernateUtil.createEntityObject(Report.class, report);
+        try {
+            hibernateUtil.createEntityObject(Report.class, report);
+        } catch (EntityExistsException ex) {
+            throw new ConflictException(ex.getMessage());
+        }
+        
         return hibernateUtil.readFullReport(report.getId());
     }
 }
