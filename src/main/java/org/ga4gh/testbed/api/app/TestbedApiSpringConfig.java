@@ -30,6 +30,7 @@ import org.ga4gh.testbed.api.model.TestbedCase;
 import org.ga4gh.testbed.api.model.TestbedTest;
 import org.ga4gh.testbed.api.model.TestbedVersion;
 import org.ga4gh.testbed.api.utils.hibernate.TestbedApiHibernateUtil;
+import org.ga4gh.testbed.api.utils.requesthandler.report.CreateReportHandler;
 import org.ga4gh.testbed.api.utils.requesthandler.report.ShowReportHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -183,9 +184,13 @@ public class TestbedApiSpringConfig {
 
     @Bean
     @RequestScope
-    public ShowReportHandler showReportHandler(
-        @Autowired TestbedApiHibernateUtil hibernateUtil
-    ) {
+    public ShowReportHandler showReportHandler() {
         return new ShowReportHandler();
+    }
+
+    @Bean
+    @RequestScope
+    public CreateReportHandler createReportHandler() {
+        return new CreateReportHandler();
     }
 }

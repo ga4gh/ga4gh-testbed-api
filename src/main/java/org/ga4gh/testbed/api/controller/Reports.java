@@ -5,12 +5,10 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import org.ga4gh.starterkit.common.exception.BadRequestException;
-import org.ga4gh.starterkit.common.exception.ResourceNotFoundException;
 import org.ga4gh.testbed.api.model.Report;
-import org.ga4gh.testbed.api.model.ReportSeries;
 import org.ga4gh.testbed.api.utils.SerializeView;
 import org.ga4gh.testbed.api.utils.hibernate.TestbedApiHibernateUtil;
+import org.ga4gh.testbed.api.utils.requesthandler.report.CreateReportHandler;
 import org.ga4gh.testbed.api.utils.requesthandler.report.ShowReportHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +28,9 @@ public class Reports {
 
     @Autowired
     private ShowReportHandler showReport;
+
+    @Autowired
+    private CreateReportHandler createReport;
 
     @GetMapping
     @JsonView(SerializeView.ReportSimple.class)
@@ -52,23 +53,6 @@ public class Reports {
         @RequestHeader("GA4GH-TestbedReportSeriesToken") String reportSeriesToken,
         @RequestBody Report report
     ) throws Exception {
-
-        // Get the report series associated with this report
-        ReportSeries reportSeries = hibernateUtil.readEntityObject(ReportSeries.class, reportSeriesId, false);
-        if (reportSeries == null) {
-            throw new ResourceNotFoundException("No ReportSeries by id: " + reportSeriesId);
-        }
-        report.setReportSeries(reportSeries);
-
-        // calculate the input token hash based on input token and salt
-
-        // compare the input token hash to the report series's token hash in db
-
-        // assign a random UUIDv4 to the report
-        report.setId(UUID.randomUUID().toString());
-        
-        // create object
-        hibernateUtil.createEntityObject(Report.class, report);
-        return hibernateUtil.readFullReport(report.getId());
+        return createReport.prepare(reportSeriesId, reportSeriesToken, report).handleRequest();
     }
 }
