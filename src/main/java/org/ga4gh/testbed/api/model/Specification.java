@@ -33,19 +33,19 @@ public class Specification implements HibernateEntity<String> {
     @JsonView(SerializeView.Always.class)
     private String id;
 
-    @Column(name = "spec_name")
+    @Column(name = "spec_name", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String specName;
 
-    @Column(name = "spec_description")
+    @Column(name = "spec_description", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String specDescription;
 
-    @Column(name = "github_url")
+    @Column(name = "github_url", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String githubUrl;
 
-    @Column(name = "documentation_url")
+    @Column(name = "documentation_url", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String documentationUrl;
 

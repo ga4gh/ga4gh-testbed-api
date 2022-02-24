@@ -21,10 +21,11 @@ import lombok.Setter;
 public class LogMessage implements HibernateEntity<Integer> {
 
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column
+    @Column(name = "message", nullable = false)
     private String message;
 
     @ManyToOne

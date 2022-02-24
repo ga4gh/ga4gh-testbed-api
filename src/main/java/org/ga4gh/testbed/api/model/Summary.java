@@ -34,23 +34,23 @@ public class Summary implements HibernateEntity<Integer> {
     @JsonView(SerializeView.Never.class)
     private Integer id;
 
-    @Column(name = "unknown")
+    @Column(name = "unknown", nullable = false)
     @JsonView(SerializeView.Always.class)
     private Integer unknown;
 
-    @Column(name = "passed")
+    @Column(name = "passed", nullable = false)
     @JsonView(SerializeView.Always.class)
     private Integer passed;
 
-    @Column(name = "warned")
+    @Column(name = "warned", nullable = false)
     @JsonView(SerializeView.Always.class)
     private Integer warned;
 
-    @Column(name = "failed")
+    @Column(name = "failed", nullable = false)
     @JsonView(SerializeView.Always.class)
     private Integer failed;
 
-    @Column(name = "skipped")
+    @Column(name = "skipped", nullable = false)
     @JsonView(SerializeView.Always.class)
     private Integer skipped;
 

@@ -36,11 +36,11 @@ public class Organization implements HibernateEntity<String> {
     @JsonView(SerializeView.Always.class)
     private String id;
 
-    @Column(name = "organization_name")
+    @Column(name = "organization_name", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String organizationName;
 
-    @Column(name = "organization_url")
+    @Column(name = "organization_url", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String organizationUrl;
 

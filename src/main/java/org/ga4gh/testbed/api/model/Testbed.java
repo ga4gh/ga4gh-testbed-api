@@ -36,15 +36,15 @@ public class Testbed implements HibernateEntity<String> {
     @JsonView(SerializeView.Always.class)
     private String id;
 
-    @Column(name = "testbed_name")
+    @Column(name = "testbed_name", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String testbedName;
 
-    @Column(name = "testbed_description")
+    @Column(name = "testbed_description", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String testbedDescription;
 
-    @Column(name = "repo_url")
+    @Column(name = "repo_url", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String repoUrl;
 

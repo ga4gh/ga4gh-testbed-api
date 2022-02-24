@@ -32,7 +32,7 @@ public class TestbedVersion implements HibernateEntity<Integer> {
     @JsonView(SerializeView.Always.class)
     private Integer id;
 
-    @Column(name = "testbed_version")
+    @Column(name = "testbed_version", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String testbedVersion;
 

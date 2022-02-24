@@ -50,34 +50,34 @@ public class Report implements HibernateEntity<String> {
     @JsonView(SerializeView.Always.class)
     private String id;
 
-    @Column(name = "schema_name")
+    @Column(name = "schema_name", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String schemaName;
 
-    @Column(name = "schema_version")
+    @Column(name = "schema_version", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String schemaVersion;
 
     @Type(type = "json")
-    @Column(name = "input_parameters", columnDefinition = "json")
+    @Column(name = "input_parameters", columnDefinition = "json", nullable = false)
     @JsonView(SerializeView.Always.class)
     private Map<String, String> inputParameters;
 
-    @Column(name = "start_time")
+    @Column(name = "start_time", nullable = false)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
     @JsonView(SerializeView.Always.class)
     private LocalDateTime startTime;
 
-    @Column(name = "end_time")
+    @Column(name = "end_time", nullable = false)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
     @JsonView(SerializeView.Always.class)
     private LocalDateTime endTime;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     @JsonView(SerializeView.Always.class)
     private Status status;
 

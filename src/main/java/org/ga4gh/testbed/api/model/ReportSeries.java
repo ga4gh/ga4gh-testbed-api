@@ -30,17 +30,16 @@ import lombok.Setter;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ReportSeries implements HibernateEntity<String> {
 
-    // @GeneratedValue
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     @JsonView(SerializeView.Always.class)
     private String id;
 
-    @Column(name = "token_salt")
+    @Column(name = "token_salt", nullable = false)
     @JsonView(SerializeView.Never.class)
     private String tokenSalt;
 
-    @Column(name = "token_hash")
+    @Column(name = "token_hash", nullable = false)
     @JsonView(SerializeView.Never.class)
     private String tokenHash;
 

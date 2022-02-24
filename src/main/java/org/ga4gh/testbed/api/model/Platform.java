@@ -37,11 +37,11 @@ public class Platform implements HibernateEntity<String> {
     @JsonView(SerializeView.Always.class)
     private String id;
 
-    @Column(name = "platform_name")
+    @Column(name = "platform_name", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String platformName;
 
-    @Column(name = "platform_description")
+    @Column(name = "platform_description", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String platformDescription;
 

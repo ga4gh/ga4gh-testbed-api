@@ -46,29 +46,29 @@ public class Phase implements HibernateEntity<Integer> {
     @JsonView(SerializeView.Never.class)
     private Integer id;
 
-    @Column(name = "phase_name")
+    @Column(name = "phase_name", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String phaseName;
 
-    @Column(name = "phase_description")
+    @Column(name = "phase_description", nullable = false)
     @JsonView(SerializeView.Always.class)
     private String phaseDescription;
 
-    @Column(name = "start_time")
+    @Column(name = "start_time", nullable = false)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
     @JsonView(SerializeView.Always.class)
     private LocalDateTime startTime;
 
-    @Column(name = "end_time")
+    @Column(name = "end_time", nullable = false)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
     @JsonView(SerializeView.Always.class)
     private LocalDateTime endTime;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     @JsonView(SerializeView.Always.class)
     private Status status;
 

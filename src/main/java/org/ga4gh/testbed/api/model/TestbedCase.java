@@ -37,28 +37,28 @@ public class TestbedCase implements HibernateEntity<Integer> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "case_name")
+    @Column(name = "case_name", nullable = false)
     private String caseName;
 
-    @Column(name = "case_description")
+    @Column(name = "case_description", nullable = false)
     private String caseDescription;
 
-    @Column(name = "start_time")
+    @Column(name = "start_time", nullable = false)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
     private LocalDateTime startTime;
 
-    @Column(name = "end_time")
+    @Column(name = "end_time", nullable = false)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
     private LocalDateTime endTime;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private Status status;
 
-    @Column(name = "message")
+    @Column(name = "message", nullable = false)
     private String message;
 
     @OneToMany(mappedBy = "testbedCase",
