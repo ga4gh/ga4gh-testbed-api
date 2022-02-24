@@ -12,7 +12,6 @@ import org.ga4gh.starterkit.common.util.CliYamlConfigLoader;
 import org.ga4gh.starterkit.common.util.DeepObjectMerger;
 import org.ga4gh.starterkit.common.util.logging.LoggingUtil;
 import org.ga4gh.starterkit.common.util.webserver.AdminEndpointsConnector;
-import org.ga4gh.starterkit.common.util.webserver.AdminEndpointsFilter;
 import org.ga4gh.starterkit.common.util.webserver.CorsFilterBuilder;
 import org.ga4gh.starterkit.common.util.webserver.TomcatMultiConnectorServletWebServerFactoryCustomizer;
 import org.ga4gh.testbed.api.model.GithubUser;
@@ -29,6 +28,7 @@ import org.ga4gh.testbed.api.model.TestbedCase;
 import org.ga4gh.testbed.api.model.TestbedTest;
 import org.ga4gh.testbed.api.model.TestbedVersion;
 import org.ga4gh.testbed.api.utils.hibernate.TestbedApiHibernateUtil;
+import org.ga4gh.testbed.api.utils.webserver.TestbedAdminEndpointsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,8 +61,8 @@ public class TestbedApiSpringConfig {
     }
 
     @Bean
-    public FilterRegistrationBean<AdminEndpointsFilter> adminEndpointsFilter() {
-        return new FilterRegistrationBean<AdminEndpointsFilter>(new AdminEndpointsFilter(Integer.valueOf(serverAdminPort)));
+    public FilterRegistrationBean<TestbedAdminEndpointsFilter> adminEndpointsFilter() {
+        return new FilterRegistrationBean<TestbedAdminEndpointsFilter>(new TestbedAdminEndpointsFilter(Integer.valueOf(serverAdminPort)));
     }
     
     /*

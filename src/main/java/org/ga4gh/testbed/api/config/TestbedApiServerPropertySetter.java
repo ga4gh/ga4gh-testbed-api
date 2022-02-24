@@ -16,6 +16,7 @@ public class TestbedApiServerPropertySetter extends ServerPropertySetter {
 
     public TestbedApiServerPropertySetter() {
         super();
+        merger = new DeepObjectMerger();
 
     }
 
@@ -31,7 +32,7 @@ public class TestbedApiServerPropertySetter extends ServerPropertySetter {
             }
             T mergedConfig = defaultConfig;
             ServerProps serverProps = mergedConfig.getServerProps();
-            String publicApiPort = "8080";
+            String publicApiPort = serverProps.getPublicApiPort();
             String adminApiPort = serverProps.getAdminApiPort();
 
             // obtain system properties
@@ -40,10 +41,12 @@ public class TestbedApiServerPropertySetter extends ServerPropertySetter {
             // set system properties for admin and public ports
             systemProperties.setProperty("server.port", publicApiPort);
             systemProperties.setProperty("server.admin.port", adminApiPort);
+            final String githubClientId = System.getenv("GITHUB_OAUTH_CLIENT_ID");
+            final String githubClientSecret = System.getenv("GITHUB_OAUTH_CLIENT_SECRET");
 
             // Github OAuth2.0
-            systemProperties.setProperty("spring.security.oauth2.client.registration.github.clientId", "3611453ee0c99394a938"); //env var
-            systemProperties.setProperty("spring.security.oauth2.client.registration.github.client-secret", "d53ef8daf0b7ce2828394500cc2d5b4fc69fb0df"); //env var
+            systemProperties.setProperty("spring.security.oauth2.client.registration.github.clientId",githubClientId );
+            systemProperties.setProperty("spring.security.oauth2.client.registration.github.clientSecret", githubClientSecret);
 
             // set system properties for Spring logging
             if (serverProps.getDisableSpringLogging()) {
