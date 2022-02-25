@@ -22,6 +22,14 @@ public class SerializeView {
 
     public static class OrganizationFull extends OrganizationSimple {};
 
+    public static class OrganizationSecure extends OrganizationFull {};
+
+    public static class GithubUserSimple extends Always {};
+
+    public static class GithubUserFull extends GithubUserSimple {};
+
+    public static class GithubUserSecure extends GithubUserFull {};
+
     public static class ReportSeriesSimple extends Always {};
 
     public static class ReportSeriesFull extends ReportSeriesSimple {};

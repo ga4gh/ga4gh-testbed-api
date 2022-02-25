@@ -16,6 +16,7 @@ import org.ga4gh.starterkit.common.util.webserver.AdminEndpointsFilter;
 import org.ga4gh.starterkit.common.util.webserver.CorsFilterBuilder;
 import org.ga4gh.starterkit.common.util.webserver.TomcatMultiConnectorServletWebServerFactoryCustomizer;
 import org.ga4gh.testbed.api.model.GithubUser;
+import org.ga4gh.testbed.api.model.GithubUserOrganization;
 import org.ga4gh.testbed.api.model.LogMessage;
 import org.ga4gh.testbed.api.model.Organization;
 import org.ga4gh.testbed.api.model.Phase;
@@ -163,6 +164,7 @@ public class TestbedApiSpringConfig {
             add(GithubUser.class);
             add(LogMessage.class);
             add(Organization.class);
+            add(GithubUserOrganization.class);
             add(Phase.class);
             add(Platform.class);
             add(Report.class);

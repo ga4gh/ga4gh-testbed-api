@@ -1,6 +1,7 @@
 package org.ga4gh.testbed.api.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import org.ga4gh.testbed.api.model.GithubUser;
 import org.ga4gh.testbed.api.model.Organization;
 import org.ga4gh.testbed.api.model.Platform;
 import org.ga4gh.testbed.api.model.Report;
@@ -40,9 +41,15 @@ public class TestController {
     }
 
     @GetMapping(path = "/organization")
-    @JsonView(SerializeView.OrganizationFull.class)
+    @JsonView(SerializeView.OrganizationSecure.class)
     public Organization getExampleOrganization() {
         return hibernateUtil.readEntityObject(Organization.class, "org.ga4gh", true);
+    }
+
+    @GetMapping(path = "/github-user")
+    @JsonView(SerializeView.GithubUserSecure.class)
+    public GithubUser getExampleGithubUser() {
+        return hibernateUtil.readEntityObject(GithubUser.class, "ga4gh-user", true);
     }
 
     @GetMapping(path = "/report-series")

@@ -18,6 +18,17 @@ insert into organization values (
     'https://ga4gh.org'
 );
 
+insert into github_user values (
+    'ga4gh-user'
+);
+
+insert into github_user_organization values (
+    0,
+    'MEMBER',
+    'ga4gh-user',
+    'org.ga4gh'
+);
+
 insert into platform values (
     'org.ga4gh.refget.starterkit',
     'Refget Starter Kit',

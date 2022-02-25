@@ -2,12 +2,12 @@ package org.ga4gh.testbed.api.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -34,14 +34,12 @@ public class GithubUser implements HibernateEntity<String> {
     @JsonView(SerializeView.Always.class)
     private String githubId;
 
-    @ManyToMany
-    @JoinTable(
-        name = "github_user_organization",
-        joinColumns = {@JoinColumn(name = "fk_github_user_github_id")},
-        inverseJoinColumns = {@JoinColumn(name = "fk_organization_id")}
-    )
-    @JsonView(SerializeView.Never.class)
-    private List<Organization> organizations;
+    @OneToMany(mappedBy = "githubUser",
+               fetch = FetchType.LAZY,
+               cascade = CascadeType.ALL,
+               orphanRemoval = true)
+    @JsonView(SerializeView.GithubUserSecure.class)
+    private List<GithubUserOrganization> githubUserOrganizations;
 
     public void setId(String id) {
         this.githubId = id;
@@ -52,6 +50,6 @@ public class GithubUser implements HibernateEntity<String> {
     }
 
     public void loadRelations() {
-        Hibernate.initialize(getOrganizations());
+        Hibernate.initialize(getGithubUserOrganizations());
     }
 }

@@ -6,9 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -44,14 +41,12 @@ public class Organization implements HibernateEntity<String> {
     @JsonView(SerializeView.Always.class)
     private String organizationUrl;
 
-    @ManyToMany
-    @JoinTable(
-        name = "github_user_organization",
-        joinColumns = {@JoinColumn(name = "fk_organization_id")},
-        inverseJoinColumns = {@JoinColumn(name = "fk_github_user_github_id")}
-    )
-    @JsonView(SerializeView.Never.class)
-    private List<GithubUser> githubUsers;
+    @OneToMany(mappedBy = "organization",
+               fetch = FetchType.LAZY,
+               cascade = CascadeType.ALL,
+               orphanRemoval = true)
+    @JsonView(SerializeView.OrganizationSecure.class)
+    private List<GithubUserOrganization> githubUserOrganizations;
 
     @OneToMany(mappedBy = "organization",
                fetch = FetchType.LAZY,
@@ -61,7 +56,7 @@ public class Organization implements HibernateEntity<String> {
     private List<Platform> platforms;
 
     public void loadRelations() {
-        Hibernate.initialize(getGithubUsers());
+        Hibernate.initialize(getGithubUserOrganizations());
         Hibernate.initialize(getPlatforms());
     }
 }
