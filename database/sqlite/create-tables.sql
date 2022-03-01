@@ -14,13 +14,13 @@ CREATE TABLE IF NOT EXISTS organization
     organization_url text NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS user_organization
+CREATE TABLE IF NOT EXISTS github_user_organization
 (
     id integer PRIMARY KEY AUTOINCREMENT,
     role text NOT NULL,
-    fk_user_github_id text NOT NULL,
+    fk_github_user_github_id text NOT NULL,
     fk_organization_id text NOT NULL,
-    foreign key (fk_user_github_id) references user(github_id),
+    foreign key (fk_github_user_github_id) references github_user(github_id),
     foreign key (fk_organization_id) references organization(id)
 );
 
