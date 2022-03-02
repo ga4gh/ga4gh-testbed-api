@@ -13,9 +13,9 @@ public class GithubUserTest {
         return new Object[][] {
             {
                 "jb-adams",
-                new ArrayList<Organization>() {{
-                    add(new Organization() {{
-                        setId("org.ga4gh");
+                new ArrayList<GithubUserOrganization>() {{
+                    add(new GithubUserOrganization() {{
+                        setId(Integer.valueOf(0));
                     }});
                 }},
             }
@@ -23,15 +23,15 @@ public class GithubUserTest {
     }
 
     @Test(dataProvider = "cases")
-    public void testGithubUser(String githubId, List<Organization> organizations) {
+    public void testGithubUser(String githubId, List<GithubUserOrganization> githubUserOrganizations) {
 
         GithubUser githubUser = new GithubUser();
         githubUser.loadRelations();
         
         githubUser.setGithubId(githubId);
-        githubUser.setOrganizations(organizations);
+        githubUser.setGithubUserOrganizations(githubUserOrganizations);
         Assert.assertEquals(githubUser.getGithubId(), githubId);
-        Assert.assertEquals(githubUser.getOrganizations(), organizations);
+        Assert.assertEquals(githubUser.getGithubUserOrganizations(), githubUserOrganizations);
 
         githubUser.setId(githubId);
         Assert.assertEquals(githubUser.getId(), githubId);
