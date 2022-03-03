@@ -1,73 +1,62 @@
 package org.ga4gh.testbed.api.controller;
 
-import com.fasterxml.jackson.annotation.*;
-import org.ga4gh.testbed.api.model.*;
-import org.ga4gh.testbed.api.utils.*;
-import org.ga4gh.testbed.api.utils.hibernate.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.security.core.*;
-import org.springframework.security.core.context.*;
-import org.springframework.security.core.userdetails.*;
-import org.springframework.security.oauth2.client.*;
-import org.springframework.security.oauth2.client.authentication.*;
-import org.springframework.security.oauth2.client.userinfo.*;
-import org.springframework.security.oauth2.client.web.*;
-import org.springframework.security.oauth2.core.user.*;
-import org.springframework.security.web.authentication.preauth.x509.*;
-import org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.ga4gh.testbed.api.utils.SerializeView;
+import org.ga4gh.testbed.api.utils.hibernate.TestbedApiHibernateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.security.*;
-import java.util.*;
 
 @RestController
 public class AuthenticationController {
+
+    // TODO: Replace these placeholder endpoints with actual endpoints
 
     @Autowired
     private TestbedApiHibernateUtil hibernateUtil;
 
     @GetMapping(path = "/")
     @JsonView(SerializeView.TestbedFull.class)
-    public String getHomePage() {
-        return "Welcome to the Home Page!!!!";
-    }
-
-    @GetMapping(path = "/login")
-    @JsonView(SerializeView.TestbedFull.class)
-    public String getLogin() {
-        // take you to github login page
-        // lets you login using OAuth
-        //
-        // if login fail -> error page with 401
-        // if login pass -> check registered = check if user exists in database
-        // no -> error page asking to register
-        // yes -> redirects to home page: "/"
-        return "You have successfully logged in!!!!";
+    public String testBedApiHomePage() {
+        return "Testbed API Home Page!!!!";
     }
 
     @GetMapping(path = "/register")
     @JsonView(SerializeView.TestbedFull.class)
-    public String registerUser() {
-        return "You have successfully register!!!!";
+    public String registerPage() {
+        return "Landing Page for register / Login";
     }
 
-    @GetMapping(path = "/loginSuccess")
+    @GetMapping(path = "/login")
     @JsonView(SerializeView.TestbedFull.class)
-    public String loginSuccess() {
-        Authentication authentication = SecurityContextHolder
-                .getContext()
-                .getAuthentication();
-        OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
-        OAuth2User principal = token.getPrincipal();
-        Map<String, Object> attributes = principal.getAttributes();
-        String githubId = (String) attributes.get("login");
-        return githubId + " - login success" ;
+    public String loginPage() {
+        return "Landing Page for register / Login";
+    }
 
+    @GetMapping(path = "/oauthregister")
+    @JsonView(SerializeView.TestbedFull.class)
+    public String oauthRegisterUser() {
+        return "endpoint for oauth2 register";
+    }
+
+    @GetMapping(path = "/oauthlogin")
+    @JsonView(SerializeView.TestbedFull.class)
+    public String oauthLoginUser() {
+        return "endpoint for oauth2 login";
     }
 
     @GetMapping(path = "/loginFailure")
     @JsonView(SerializeView.TestbedFull.class)
-    public String loginFailure() {
-        return "login fail!!!!";
+    public String loginFailure(@RequestParam(required = false) String error) {
+        return "error: " + error;
+    }
+
+    @GetMapping(path = "/registerFailure")
+    @JsonView(SerializeView.TestbedFull.class)
+    public String registerFailure(@RequestParam(required = false) String error) {
+        return "error: " + error;
     }
 
 }
