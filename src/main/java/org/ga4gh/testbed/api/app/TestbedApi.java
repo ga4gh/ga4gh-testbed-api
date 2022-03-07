@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"org.ga4gh.testbed.api","org.ga4gh.testbed.api.controller.TestSecurity"})
+@ComponentScan(basePackages = {"org.ga4gh.testbed.api"})
 public class TestbedApi {
     public static void main(String[] args) {
         boolean setupSuccess = setup(args);
