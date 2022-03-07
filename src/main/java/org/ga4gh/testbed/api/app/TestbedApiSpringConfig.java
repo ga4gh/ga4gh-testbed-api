@@ -1,5 +1,6 @@
 package org.ga4gh.testbed.api.app;
 
+import ch.qos.logback.classic.Logger;
 import org.apache.catalina.connector.Connector;
 import org.apache.commons.cli.Options;
 import org.ga4gh.starterkit.common.config.DatabaseProps;
@@ -150,6 +151,11 @@ public class TestbedApiSpringConfig {
     @Bean
     public TestbedLoggingUtil testbedloggingUtil() {
         return new TestbedLoggingUtil();
+    }
+
+    @Bean
+    public Logger getLogger(@Autowired TestbedLoggingUtil testbedLoggingUtil) {
+        return testbedLoggingUtil.getLogger();
     }
 
     /* ******************************
