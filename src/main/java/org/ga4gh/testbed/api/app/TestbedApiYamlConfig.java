@@ -15,8 +15,6 @@ public class TestbedApiYamlConfig {
 
     public TestbedApiYamlConfig() {
         serverProps = new ServerProps();
-        // set log file as "ga4gh-testbed-infrastructure.log". It will be added to ./logs directory
-        serverProps.setLogFile("ga4gh-testbed-infrastructure.log");
         databaseProps = new TestbedApiDatabaseProps();
     }
 }
