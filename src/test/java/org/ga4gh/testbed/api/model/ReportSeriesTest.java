@@ -13,8 +13,6 @@ public class ReportSeriesTest {
         return new Object[][] {
             {
                 "1edb5213-52a2-434f-a7b8-b101fea8fb30",
-                "abc",
-                "def",
                 new Testbed() {{
                     setId("refget-compliance");
                 }},
@@ -31,22 +29,17 @@ public class ReportSeriesTest {
     }
 
     @Test(dataProvider = "cases")
-    public void testReportSeries(String id, String tokenSalt, String tokenHash,
-        Testbed testbed, Platform platform, List<Report> reports) {
+    public void testReportSeries(String id, Testbed testbed, Platform platform, List<Report> reports) {
 
         ReportSeries reportSeries = new ReportSeries();
         reportSeries.loadRelations();
 
         reportSeries.setId(id);
-        reportSeries.setTokenSalt(tokenSalt);
-        reportSeries.setTokenHash(tokenHash);
         reportSeries.setTestbed(testbed);
         reportSeries.setPlatform(platform);
         reportSeries.setReports(reports);
 
         Assert.assertEquals(reportSeries.getId(), id);
-        Assert.assertEquals(reportSeries.getTokenSalt(), tokenSalt);
-        Assert.assertEquals(reportSeries.getTokenHash(), tokenHash);
         Assert.assertEquals(reportSeries.getTestbed(), testbed);
         Assert.assertEquals(reportSeries.getPlatform(), platform);
         Assert.assertEquals(reportSeries.getReports(), reports);

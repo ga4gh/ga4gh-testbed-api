@@ -107,8 +107,6 @@ CREATE TABLE IF NOT EXISTS summary
 CREATE TABLE IF NOT EXISTS report_series
 (
     id text PRIMARY KEY,
-    token_salt text NOT NULL,
-    token_hash text NOT NULL,
     fk_testbed_id text NOT NULL,
     fk_platform_id text NOT NULL,
     foreign key (fk_testbed_id) references testbed(id),
