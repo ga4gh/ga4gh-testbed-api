@@ -7,7 +7,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -46,7 +46,6 @@ public class Report implements HibernateEntity<String> {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    @GeneratedValue
     @JsonView(SerializeView.Always.class)
     private String id;
 
@@ -81,15 +80,9 @@ public class Report implements HibernateEntity<String> {
     @JsonView(SerializeView.Always.class)
     private Status status;
 
-    @OneToOne(
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
-    @JoinColumn(
-        name = "fk_summary_id",
-        referencedColumnName = "id"
-    )
-    @JsonView(SerializeView.ReportFull.class)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "fk_summary_id", referencedColumnName = "id")
+    @JsonView(SerializeView.ReportSimple.class)
     private Summary summary;
 
     @OneToMany(
@@ -98,6 +91,7 @@ public class Report implements HibernateEntity<String> {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
+    @JsonManagedReference
     @JsonView(SerializeView.ReportFull.class)
     private List<Phase> phases;
 

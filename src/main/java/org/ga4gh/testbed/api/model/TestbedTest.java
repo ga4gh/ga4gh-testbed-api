@@ -14,13 +14,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.ga4gh.starterkit.common.constant.DateTimeConstants;
 import org.ga4gh.starterkit.common.hibernate.HibernateEntity;
+import org.ga4gh.testbed.api.utils.SerializeView;
 import org.hibernate.Hibernate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,50 +39,63 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class TestbedTest implements HibernateEntity<Integer> {
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class TestbedTest implements HibernateEntity<Long> {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(SerializeView.Never.class)
+    private Long id;
 
     @Column(name = "test_name", nullable = false)
+    @JsonView(SerializeView.Always.class)
     private String testName;
 
     @Column(name = "test_description", nullable = false)
+    @JsonView(SerializeView.Always.class)
     private String testDescription;
 
     @Column(name = "start_time", nullable = false)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
+    @JsonView(SerializeView.Always.class)
     private LocalDateTime startTime;
 
     @Column(name = "end_time", nullable = false)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeConstants.DATE_FORMAT)
+    @JsonView(SerializeView.Always.class)
     private LocalDateTime endTime;
 
     @Column(name = "status", nullable = false)
+    @JsonView(SerializeView.Always.class)
     private Status status;
 
     @OneToOne(cascade = CascadeType.ALL,
               orphanRemoval = true)
     @JoinColumn(name = "fk_summary_id", referencedColumnName = "id")
+    @JsonView(SerializeView.ReportFull.class)
     private Summary summary;
 
     @OneToMany(mappedBy = "testbedTest",
                fetch = FetchType.LAZY,
                cascade = CascadeType.ALL,
                orphanRemoval = true)
-    private List<TestbedCase> testbedCases;
+    @JsonManagedReference
+    @JsonView(SerializeView.ReportFull.class)
+    private List<TestbedCase> cases;
 
     @ManyToOne
     @JoinColumn(name = "fk_phase_id")
+    @JsonBackReference
+    @JsonView(SerializeView.Never.class)
     private Phase phase;
 
     public void loadRelations() {
-        Hibernate.initialize(getTestbedCases());
+        Hibernate.initialize(getCases());
     }
 }
