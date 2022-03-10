@@ -21,19 +21,19 @@ public class AwsSecretManagerUtil {
 
     public String createSecret(
             final String secretName,
-            final String secretKey,
-            final String secretValue,
+            final HashMap<String, String> secretKeyVaueMap,
             final String secretDescription){
         // creates a new AWS Secret Manager entry by name = secretName.
-        // This entry will house a key value pair.
+        // This entry will house a set of key value pairs.
         SecretsManagerClient secretsClient= secretsClient();
         try {
-
-            String secretKeyValue = String.format("{ \"%s\":\"%s\" }", secretKey, secretValue);
+            String secretKeyValueString = secretKeyVaueMap.keySet().stream()
+                    .map(key -> "\""+key+ "\":\"" + secretKeyVaueMap.get(key)+"\"")
+                    .collect(Collectors.joining(", ", "{", "}"));
             CreateSecretRequest createSecretRequest = CreateSecretRequest.builder()
                     .name(secretName)
                     .description(secretDescription)
-                    .secretString(secretKeyValue)
+                    .secretString(secretKeyValueString)
                     .build();
             CreateSecretResponse createSecretResponse = secretsClient.createSecret(createSecretRequest);
             secretsClient.close();
@@ -79,7 +79,8 @@ public class AwsSecretManagerUtil {
             final String secretKey,
             final String secretValue,
             final String secretDescription) throws JsonProcessingException {
-        // Updates an existing SM entry with an additional key vaule pair
+        // Updates an existing AWS Secret Manager entry.
+        // If the key already exists, the value is updated or a new key value pair is added.
         SecretsManagerClient secretsClient= secretsClient();
         try {
 
