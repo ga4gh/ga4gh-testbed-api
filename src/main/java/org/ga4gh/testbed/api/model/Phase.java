@@ -14,8 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -38,13 +41,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class Phase implements HibernateEntity<Integer> {
+public class Phase implements HibernateEntity<Long> {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(SerializeView.Never.class)
-    private Integer id;
+    private Long id;
 
     @Column(name = "phase_name", nullable = false)
     @JsonView(SerializeView.Always.class)
@@ -82,15 +85,17 @@ public class Phase implements HibernateEntity<Integer> {
                fetch = FetchType.LAZY,
                cascade = CascadeType.ALL,
                orphanRemoval = true)
-    @JsonView(SerializeView.Never.class) // TODO update this to serialize when report is requested
-    private List<TestbedTest> testbedTests;
+    @JsonManagedReference
+    @JsonView(SerializeView.ReportFull.class)
+    private List<TestbedTest> tests;
 
     @ManyToOne
     @JoinColumn(name = "fk_report_id")
+    @JsonBackReference
     @JsonView(SerializeView.Never.class)
     private Report report;
 
     public void loadRelations() {
-        Hibernate.initialize(getTestbedTests());
+        Hibernate.initialize(getTests());
     }
 }

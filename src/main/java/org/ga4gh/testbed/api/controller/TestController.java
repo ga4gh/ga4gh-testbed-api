@@ -61,6 +61,6 @@ public class TestController {
     @GetMapping(path = "/report")
     @JsonView(SerializeView.ReportFull.class)
     public Report getExampleReport() {
-        return hibernateUtil.readEntityObject(Report.class, "01d0e947-5975-4786-a755-5025fec7416d", true);
+        return hibernateUtil.readFullReport("01d0e947-5975-4786-a755-5025fec7416d");
     }
 }

@@ -30,6 +30,8 @@ import org.ga4gh.testbed.api.model.TestbedTest;
 import org.ga4gh.testbed.api.model.TestbedVersion;
 import org.ga4gh.testbed.api.utils.hibernate.TestbedApiHibernateUtil;
 import org.ga4gh.testbed.api.utils.webserver.TestbedAdminEndpointsFilter;
+import org.ga4gh.testbed.api.utils.requesthandler.report.CreateReportHandler;
+import org.ga4gh.testbed.api.utils.requesthandler.report.ShowReportHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,6 +43,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
@@ -65,13 +68,6 @@ public class TestbedApiSpringConfig {
     public FilterRegistrationBean<TestbedAdminEndpointsFilter> adminEndpointsFilter() {
         return new FilterRegistrationBean<TestbedAdminEndpointsFilter>(new TestbedAdminEndpointsFilter(Integer.valueOf(serverAdminPort)));
     }
-    
-    /*
-    @Bean
-    public DrsCustomExceptionHandling customExceptionHandling() {
-        return new DrsCustomExceptionHandling();
-    }
-    */
 
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilter(
@@ -180,5 +176,21 @@ public class TestbedApiSpringConfig {
         hibernateUtil.setAnnotatedClasses(annotatedClasses);
         hibernateUtil.setDatabaseProps(databaseProps);
         return hibernateUtil;
+    }
+
+    /* ******************************
+     * REQUEST HANDLER
+     * ****************************** */
+
+    @Bean
+    @RequestScope
+    public ShowReportHandler showReportHandler() {
+        return new ShowReportHandler();
+    }
+
+    @Bean
+    @RequestScope
+    public CreateReportHandler createReportHandler() {
+        return new CreateReportHandler();
     }
 }
