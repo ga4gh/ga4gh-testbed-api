@@ -1,6 +1,7 @@
 package org.ga4gh.testbed.api.config;
 
 import org.ga4gh.starterkit.common.hibernate.exception.EntityExistsException;
+import org.ga4gh.starterkit.common.util.logging.LoggingUtil;
 import org.ga4gh.testbed.api.model.GithubUser;
 import org.ga4gh.testbed.api.utils.hibernate.TestbedApiHibernateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.DefaultSavedRequest;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,19 +25,14 @@ public class TestbedApiCheckUserLoginAndRegistrationHandler implements Authentic
     @Autowired
     private TestbedApiHibernateUtil hibernateUtil;
 
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    @Autowired
+    private LoggingUtil loggingUtil;
 
-    private RequestCache requestCache = new HttpSessionRequestCache();
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
-
-
-        // Get the request's target url
-        SavedRequest savedRequest = this.requestCache.getRequest(request, response);
-        DefaultSavedRequest defaultSavedRequest = (DefaultSavedRequest) savedRequest;
-        String accessedURI = defaultSavedRequest.getRequestURI();
 
         // check our database for the current user's github id
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
@@ -49,43 +41,20 @@ public class TestbedApiCheckUserLoginAndRegistrationHandler implements Authentic
         String userGithubId = (String) attributes.get("login");
         GithubUser dbGithubUser = hibernateUtil.readEntityObject(GithubUser.class, userGithubId, false);
 
-
-        // TODO: invalidate the access token and delete it (logout logic - but it requires FE to provide the CSRF token?!)
-        // If user is not registered, render the login page with error message
-
-
-        // ideally accessURI will be either "/oauthregister" or "/oauthlogin".
         // If the user tries to access any secure page, they will be redirected to /login landing page
-        // and will be forced to choose either "/oauthregister" or "/oauthlogin".
-
-        if (accessedURI.equals("/oauthregister")){
-            // user is trying to register
-            if (dbGithubUser==null){
-                // create GithubUserOrganization object
-                GithubUser githubUser = new GithubUser();
-                githubUser.setGithubId(userGithubId);
-
-                try {
-                    hibernateUtil.createEntityObject(GithubUser.class,githubUser);
-                    redirectStrategy.sendRedirect(request, response, "/");
-                } catch (EntityExistsException e) {
-                    e.printStackTrace();
-                }
-            }
-            else {
-                redirectStrategy.sendRedirect(request, response, "/registerFailure?error=user_already_exists");
+        // If the user is not in the database, then add them to the database and redirect to the home page
+        if (dbGithubUser==null){
+            // create GithubUserOrganization object
+            GithubUser githubUser = new GithubUser();
+            githubUser.setGithubId(userGithubId);
+            try {
+                hibernateUtil.createEntityObject(GithubUser.class,githubUser);
+                loggingUtil.debug(String.format("Added github user : %s to the database",userGithubId));
+            } catch (EntityExistsException e) {
+                loggingUtil.error(String.format("Error adding the user to the database. %s",e.getMessage()));
             }
         }
-        else {
-            // user is trying to login
-            if (dbGithubUser == null) {
-                redirectStrategy.sendRedirect(request, response, "/loginFailure?error=user_is_not_registered");
-            }
-            else {
-                redirectStrategy.sendRedirect(request, response, "/");
-            }
-
-        }
+        // TODO: redirect to the app's homepage.
+        redirectStrategy.sendRedirect(request, response, "/reports");
     }
-
 }

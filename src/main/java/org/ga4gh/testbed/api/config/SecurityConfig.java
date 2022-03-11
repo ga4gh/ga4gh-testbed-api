@@ -17,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // every request is authenticated using oauth2.0
         http
                 .authorizeRequests()
-                .antMatchers("/test/*", "/reports/*" ,"/oauthregister", "/oauthlogin")
+                .antMatchers("/test/*", "/reports/*" )
                 .authenticated()
                 .and()
                 .oauth2Login()
