@@ -26,13 +26,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class Summary implements HibernateEntity<Integer> {
+public class Summary implements HibernateEntity<Long> {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(SerializeView.Never.class)
-    private Integer id;
+    private Long id;
 
     @Column(name = "unknown", nullable = false)
     @JsonView(SerializeView.Always.class)

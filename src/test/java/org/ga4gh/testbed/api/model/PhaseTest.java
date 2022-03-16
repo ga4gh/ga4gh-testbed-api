@@ -13,19 +13,19 @@ public class PhaseTest {
     public Object[][] getData() {
         return new Object[][] {
             {
-                Integer.valueOf(0),
+                Long.valueOf(0),
                 "sequence",
                 "refget sequence endpoint",
                 LocalDateTime.now(),
                 LocalDateTime.now(),
                 Status.PASS,
                 new Summary() {{
-                    setId(0);
+                    setId(Long.valueOf(0));
                     setPassed(10);
                 }},
                 new ArrayList<TestbedTest>() {{
                     add(new TestbedTest() {{
-                        setId(0);
+                        setId(Long.valueOf(0));
                         setTestName("test_sequence_circular");
                     }});
                 }},
@@ -38,9 +38,9 @@ public class PhaseTest {
     }
 
     @Test(dataProvider = "cases")
-    public void testPhase(Integer id, String phaseName, String phaseDescription,
+    public void testPhase(Long id, String phaseName, String phaseDescription,
         LocalDateTime startTime, LocalDateTime endTime, Status status,
-        Summary summary, List<TestbedTest> testbedTests, Report report) {
+        Summary summary, List<TestbedTest> tests, Report report) {
 
         Phase phase = new Phase();
         phase.loadRelations();
@@ -52,7 +52,7 @@ public class PhaseTest {
         phase.setEndTime(endTime);
         phase.setStatus(status);
         phase.setSummary(summary);
-        phase.setTestbedTests(testbedTests);
+        phase.setTests(tests);
         phase.setReport(report);
 
         Assert.assertEquals(phase.getId(), id);
@@ -62,7 +62,7 @@ public class PhaseTest {
         Assert.assertEquals(phase.getEndTime(), endTime);
         Assert.assertEquals(phase.getStatus(), status);
         Assert.assertEquals(phase.getSummary(), summary);
-        Assert.assertEquals(phase.getTestbedTests(), testbedTests);
+        Assert.assertEquals(phase.getTests(), tests);
         Assert.assertEquals(phase.getReport(), report);
     }
 }

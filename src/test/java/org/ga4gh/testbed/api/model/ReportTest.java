@@ -25,7 +25,7 @@ public class ReportTest {
                 LocalDateTime.now(),
                 Status.PASS,
                 new Summary() {{
-                    setId(0);
+                    setId(Long.valueOf(0));
                     setPassed(10);
                 }},
                 new ArrayList<Phase>() {{
