@@ -9,7 +9,7 @@ import org.ga4gh.starterkit.common.util.webserver.ServerPropertySetter;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.DefaultApplicationArguments;
 
-import java.util.*;
+import java.util.Properties;
 
 public class TestbedApiServerPropertySetter extends ServerPropertySetter {
     private DeepObjectMerger merger;
