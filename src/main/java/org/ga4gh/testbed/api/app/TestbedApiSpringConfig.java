@@ -30,6 +30,7 @@ import org.ga4gh.testbed.api.utils.hibernate.TestbedApiHibernateUtil;
 import org.ga4gh.testbed.api.utils.logging.TestbedLoggingUtil;
 import org.ga4gh.testbed.api.utils.requesthandler.report.CreateReportHandler;
 import org.ga4gh.testbed.api.utils.requesthandler.report.ShowReportHandler;
+import org.ga4gh.testbed.api.utils.secretmanager.AwsSecretManagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -152,6 +153,14 @@ public class TestbedApiSpringConfig {
     @Bean
     public Logger getLogger(@Autowired TestbedLoggingUtil testbedLoggingUtil) {
         return testbedLoggingUtil.getLogger();
+    }
+
+    /* ******************************
+     * SECRETS MANAGER
+     * ****************************** */
+    @Bean
+    public AwsSecretManagerUtil awsSecretManagerUtil() {
+        return new AwsSecretManagerUtil();
     }
 
     /* ******************************
