@@ -232,6 +232,16 @@ public class TestbedApiSpringConfig {
 
     @Bean
     @RequestScope
+    public BasicShowRequestHandler<String, ReportSeries> showReportSeriesHandler(
+        @Autowired TestbedApiHibernateUtil hibernateUtil
+    ) {
+        BasicShowRequestHandler<String, ReportSeries> showReportSeriesHandler = new BasicShowRequestHandler<>(ReportSeries.class);
+        showReportSeriesHandler.setHibernateUtil(hibernateUtil);
+        return showReportSeriesHandler;
+    }
+
+    @Bean
+    @RequestScope
     public BasicShowRequestHandler<String, Specification> showSpecificationHandler(
         @Autowired TestbedApiHibernateUtil hibernateUtil
     ) {
