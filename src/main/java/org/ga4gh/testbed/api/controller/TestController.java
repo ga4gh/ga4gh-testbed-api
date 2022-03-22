@@ -28,18 +28,6 @@ public class TestController {
         return hibernateUtil.readEntityObject(Specification.class, "refget", true);
     }
 
-    @GetMapping(path = "/testbed")
-    @JsonView(SerializeView.TestbedFull.class)
-    public Testbed getExampleTestbed() {
-        return hibernateUtil.readEntityObject(Testbed.class, "refget-compliance", true);
-    }
-
-    @GetMapping(path = "/platform")
-    @JsonView(SerializeView.PlatformFull.class)
-    public Platform getExamplePlatform() {
-        return hibernateUtil.readEntityObject(Platform.class, "org.ga4gh.refget.starterkit", true);
-    }
-
     @GetMapping(path = "/organization")
     @JsonView(SerializeView.OrganizationSecure.class)
     public Organization getExampleOrganization() {

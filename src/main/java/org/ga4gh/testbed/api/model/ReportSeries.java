@@ -39,14 +39,20 @@ public class ReportSeries implements HibernateEntity<String> {
                cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                           CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "fk_testbed_id")
-    @JsonView(SerializeView.ReportSeriesFull.class)
+    @JsonView({
+        SerializeView.ReportSeriesFull.class,
+        SerializeView.PlatformFull.class
+    })
     private Testbed testbed;
 
     @ManyToOne(fetch = FetchType.EAGER,
                cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                           CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "fk_platform_id")
-    @JsonView(SerializeView.ReportSeriesFull.class)
+    @JsonView({
+        SerializeView.ReportSeriesFull.class,
+        SerializeView.TestbedFull.class
+    })
     private Platform platform;
 
     @OneToMany(
