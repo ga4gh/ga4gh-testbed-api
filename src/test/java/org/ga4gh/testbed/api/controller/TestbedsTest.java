@@ -22,35 +22,35 @@ import org.testng.annotations.Test;
 @ContextConfiguration(classes = {
     TestbedApi.class,
     TestbedApiSpringConfig.class,
-    Specifications.class
+    Testbeds.class
 })
 @WebAppConfiguration
-public class SpecificationsTest extends AbstractTestNGSpringContextTests {
+public class TestbedsTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private WebApplicationContext context;
 
     private MockMvc mockMvc;
 
-    private static final String RESPONSE_DIR = "/responses/specifications/";
+    private static final String RESPONSE_DIR = "/responses/testbeds/";
 
-    @DataProvider(name = "getSpecificationCases")
-    public Object[][] getSpecificationCases() {
+    @DataProvider(name = "getTestbedCases")
+    public Object[][] getTestbedCases() {
         return new Object[][] {
             {
-                "refget",
+                "refget-compliance",
                 "00",
                 true,
                 200
             },
             {
-                "rnaget",
+                "rnaget-compliance",
                 "01",
                 true,
                 200
             },
             {
-                "invalidid",
+                "invalid-testbed-id",
                 null,
                 false,
                 404
@@ -78,12 +78,12 @@ public class SpecificationsTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testGetSpecifications() throws Exception {
-        simpleGetRequestAndAssert("/specifications", "index", "00", true, 200);
+    public void testGetTestbeds() throws Exception {
+        simpleGetRequestAndAssert("/testbeds", "index", "00", true, 200);
     }
 
-    @Test(dataProvider = "getSpecificationCases")
-    public void testGetSpecification(String id, String fileKey, boolean expSuccess, int expStatus) throws Exception {
-        simpleGetRequestAndAssert("/specifications/" + id, "show", fileKey, expSuccess, expStatus);
+    @Test(dataProvider = "getTestbedCases")
+    public void testGetTestbed(String id, String fileKey, boolean expSuccess, int expStatus) throws Exception {
+        simpleGetRequestAndAssert("/testbeds/" + id, "show", fileKey, expSuccess, expStatus);
     }
 }
