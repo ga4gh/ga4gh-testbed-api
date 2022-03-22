@@ -200,6 +200,16 @@ public class TestbedApiSpringConfig {
 
     @Bean
     @RequestScope
+    public BasicShowRequestHandler<String, Platform> showPlatformHandler(
+        @Autowired TestbedApiHibernateUtil hibernateUtil
+    ) {
+        BasicShowRequestHandler<String, Platform> showPlatformHandler = new BasicShowRequestHandler<>(Platform.class);
+        showPlatformHandler.setHibernateUtil(hibernateUtil);
+        return showPlatformHandler;
+    }
+
+    @Bean
+    @RequestScope
     public ShowReportHandler showReportHandler() {
         return new ShowReportHandler();
     }

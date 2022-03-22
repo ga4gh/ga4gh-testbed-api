@@ -49,7 +49,7 @@ public class Platform implements HibernateEntity<String> {
                cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                           CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "fk_organization_id")
-    @JsonView(SerializeView.PlatformFull.class)
+    @JsonView(SerializeView.PlatformSimple.class)
     private Organization organization;
 
     @ManyToMany
