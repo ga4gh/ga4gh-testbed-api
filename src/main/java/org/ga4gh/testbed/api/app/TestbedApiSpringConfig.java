@@ -200,6 +200,16 @@ public class TestbedApiSpringConfig {
 
     @Bean
     @RequestScope
+    public BasicShowRequestHandler<String, Organization> showOrganizationHandler(
+        @Autowired TestbedApiHibernateUtil hibernateUtil
+    ) {
+        BasicShowRequestHandler<String, Organization> showOrganizationHandler = new BasicShowRequestHandler<>(Organization.class);
+        showOrganizationHandler.setHibernateUtil(hibernateUtil);
+        return showOrganizationHandler;
+    }
+
+    @Bean
+    @RequestScope
     public BasicShowRequestHandler<String, Platform> showPlatformHandler(
         @Autowired TestbedApiHibernateUtil hibernateUtil
     ) {

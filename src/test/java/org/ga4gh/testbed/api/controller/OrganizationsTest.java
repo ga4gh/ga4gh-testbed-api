@@ -22,35 +22,29 @@ import org.testng.annotations.Test;
 @ContextConfiguration(classes = {
     TestbedApi.class,
     TestbedApiSpringConfig.class,
-    Platforms.class
+    Organizations.class
 })
 @WebAppConfiguration
-public class PlatformsTest extends AbstractTestNGSpringContextTests {
+public class OrganizationsTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private WebApplicationContext context;
 
     private MockMvc mockMvc;
 
-    private static final String RESPONSE_DIR = "/responses/platforms/";
+    private static final String RESPONSE_DIR = "/responses/organizations/";
 
-    @DataProvider(name = "getPlatformCases")
-    public Object[][] getPlatformCases() {
+    @DataProvider(name = "getOrganizationCases")
+    public Object[][] getOrganizationCases() {
         return new Object[][] {
             {
-                "org.ga4gh.refget.starterkit",
+                "org.ga4gh",
                 "00",
                 true,
                 200
             },
             {
-                "org.ga4gh.rnaget.starterkit",
-                "01",
-                true,
-                200
-            },
-            {
-                "invalid.platform.id",
+                "org.doesnt.exist",
                 null,
                 false,
                 404
@@ -78,12 +72,12 @@ public class PlatformsTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testGetPlatforms() throws Exception {
-        simpleGetRequestAndAssert("/platforms", "index", "00", true, 200);
+    public void testGetOrganizations() throws Exception {
+        simpleGetRequestAndAssert("/organizations", "index", "00", true, 200);
     }
 
-    @Test(dataProvider = "getPlatformCases")
-    public void testGetPlatform(String id, String fileKey, boolean expSuccess, int expStatus) throws Exception {
-        simpleGetRequestAndAssert("/platforms/" + id, "show", fileKey, expSuccess, expStatus);
+    @Test(dataProvider = "getOrganizationCases")
+    public void testGetOrganization(String id, String fileKey, boolean expSuccess, int expStatus) throws Exception {
+        simpleGetRequestAndAssert("/organizations/" + id, "show", fileKey, expSuccess, expStatus);
     }
 }
