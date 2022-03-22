@@ -6,6 +6,7 @@ import org.apache.commons.cli.Options;
 import org.ga4gh.starterkit.common.config.DatabaseProps;
 import org.ga4gh.starterkit.common.config.ServerProps;
 import org.ga4gh.starterkit.common.hibernate.HibernateEntity;
+import org.ga4gh.starterkit.common.requesthandler.BasicShowRequestHandler;
 import org.ga4gh.starterkit.common.util.CliYamlConfigLoader;
 import org.ga4gh.starterkit.common.util.DeepObjectMerger;
 import org.ga4gh.starterkit.common.util.webserver.AdminEndpointsConnector;
@@ -207,5 +208,15 @@ public class TestbedApiSpringConfig {
     @RequestScope
     public CreateReportHandler createReportHandler() {
         return new CreateReportHandler();
+    }
+
+    @Bean
+    @RequestScope
+    public BasicShowRequestHandler<String, Specification> showSpecificationHandler(
+        @Autowired TestbedApiHibernateUtil hibernateUtil
+    ) {
+        BasicShowRequestHandler<String, Specification> showSpecificationHandler = new BasicShowRequestHandler<>(Specification.class);
+        showSpecificationHandler.setHibernateUtil(hibernateUtil);
+        return showSpecificationHandler;
     }
 }

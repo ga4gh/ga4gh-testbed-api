@@ -46,12 +46,6 @@ public class TestController {
         return hibernateUtil.readEntityObject(Organization.class, "org.ga4gh", true);
     }
 
-    @GetMapping(path = "/github-user")
-    @JsonView(SerializeView.GithubUserSecure.class)
-    public GithubUser getExampleGithubUser() {
-        return hibernateUtil.readEntityObject(GithubUser.class, "ga4gh-user", true);
-    }
-
     @GetMapping(path = "/report-series")
     @JsonView(SerializeView.ReportSeriesFull.class)
     public ReportSeries getExampleReportSeries() {
