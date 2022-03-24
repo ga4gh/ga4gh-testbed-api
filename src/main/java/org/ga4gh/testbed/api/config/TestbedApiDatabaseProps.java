@@ -6,7 +6,7 @@ public class TestbedApiDatabaseProps extends DatabaseProps {
 
     public TestbedApiDatabaseProps() {
         super();
-        setUrl("jdbc:sqlite:./ga4gh-testbed-infrastructure.dev.db");
+        setUrl("jdbc:sqlite:./ga4gh-testbed-api.dev.db");
         setPoolSize("8");
     }
 }

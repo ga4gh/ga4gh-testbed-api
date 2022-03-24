@@ -38,6 +38,8 @@ jobs:
       run: "./gradlew test --tests=org.*"
 
     - name: After Success Submitting Code Coverage
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: | #jacocoTestReport is for testing code coverage, submits the last report to the link
         ./gradlew jacocoTestReport
         bash <(curl -s https://codecov.io/bash)
