@@ -91,17 +91,17 @@ public class DockerReportsTest {
         }
     }
 
-    @Test
+    @Test(groups = "index")
     public void testGetReports() throws Exception {
         simpleGetRequestAndAssert(BASE_URL, true, 200, "/responses/reports/index/00.json");
     }
 
-    @Test(dataProvider = "getReportCases")
+    @Test(dataProvider = "getReportCases", groups = "show")
     public void testGetReport(String id, String fileKey, boolean expSuccess, int expStatus) throws Exception {
         simpleGetRequestAndAssert(BASE_URL + "/" + id, expSuccess, expStatus, "/responses/reports/show/" + fileKey + ".json");
     }
 
-    @Test(dataProvider = "createReportCases", groups = "create")
+    @Test(dataProvider = "createReportCases", groups = "create", dependsOnGroups = "index")
     public void testCreateReport(String reportSeriesId, String reportSeriesToken, String fileKey, boolean expSuccess, int expStatus) throws Exception {
 
         String payloadFile = "/responses/reports/create/" + fileKey + ".json";
@@ -127,6 +127,7 @@ public class DockerReportsTest {
             ObjectMapper mapper = new ObjectMapper();
             String responseBody = response.body();
             Report report = mapper.readValue(responseBody, Report.class);
+            String originalReportId = report.getId();
             report.setId("00000000-0000-0000-0000-000000000000");
             String finalResponseBody = mapper.writeValueAsString(report);
 
@@ -134,6 +135,17 @@ public class DockerReportsTest {
             String expResponseFile = "/responses/reports/create/" + fileKey + ".json";
             String expResponseBody = ResourceLoader.load(expResponseFile);
             Assert.assertEquals(finalResponseBody, expResponseBody);
+
+            // delete the newly created report
+            HttpRequest deleteRequest = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_URL + "/" + originalReportId))
+                .header("Content-Type", "application/json")
+                .header("GA4GH-TestbedReportSeriesId", reportSeriesId)
+                .header("GA4GH-TestbedReportSeriesToken", reportSeriesToken)
+                .DELETE()
+                .build();
+            HttpResponse<String> deleteResponse = client.send(deleteRequest, HttpResponse.BodyHandlers.ofString());
+            Assert.assertEquals(deleteResponse.statusCode(), 200);
         }
     }
 }

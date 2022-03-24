@@ -22,7 +22,7 @@
   "phases": [
       {
           "phase_name": "projects",
-          "phase_description": "",
+          "phase_description": "projects",
           "start_time": "2022-02-17T16:25:02Z",
           "end_time": "2022-02-17T16:25:02Z",
           "status": "PASS",
@@ -1798,7 +1798,7 @@
       },
       {
           "phase_name": "studies",
-          "phase_description": "",
+          "phase_description": "studies",
           "start_time": "2022-02-17T16:25:02Z",
           "end_time": "2022-02-17T16:25:02Z",
           "status": "FAIL",
@@ -2518,7 +2518,7 @@
       },
       {
           "phase_name": "expressions",
-          "phase_description": "",
+          "phase_description": "expressions",
           "start_time": "2022-02-17T16:25:02Z",
           "end_time": "2022-02-17T16:25:02Z",
           "status": "FAIL",
@@ -3766,7 +3766,7 @@
       },
       {
           "phase_name": "continuous",
-          "phase_description": "",
+          "phase_description": "continuous",
           "start_time": "2022-02-17T16:25:02Z",
           "end_time": "2022-02-17T16:25:02Z",
           "status": "FAIL",

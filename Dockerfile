@@ -59,4 +59,6 @@ COPY --from=gradleimage /home/gradle/source/build/libs/ga4gh-testbed-api-${VERSI
 COPY --from=builder /usr/src/dependencies/ga4gh-testbed-api.dev.db ga4gh-testbed-api.dev.db
 COPY src/test/resources/ src/test/resources/
 
+RUN chmod 666 ga4gh-testbed-api.dev.db
+
 ENTRYPOINT ["java", "-jar", "ga4gh-testbed-api.jar"]
