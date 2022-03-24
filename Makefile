@@ -1,6 +1,6 @@
 DOCKER_ORG := ga4gh
 DOCKER_REPO := ga4gh-testbed-api
-DOCKER_TAG := 0.1.0
+DOCKER_TAG := $(shell cat build.gradle | grep "^version" | cut -f 2 -d ' ' | sed "s/'//g")
 DOCKER_IMG := ${DOCKER_ORG}/${DOCKER_REPO}:${DOCKER_TAG}
 DEVDB := ga4gh-testbed-api.dev.db
 
@@ -47,4 +47,10 @@ sqlite-db-populate-dev-dataset:
 .PHONY: sqlite-db-refresh
 sqlite-db-refresh: clean-sqlite sqlite-db-build sqlite-db-populate-dev-dataset
 
+.PHONY: docker-build
+docker-build:
+	docker build -t ${DOCKER_IMG} --build-arg VERSION=${DOCKER_TAG} .
 
+.PHONY: docker-build-test
+docker-build-test:
+	docker build -t ga4gh/ga4gh-testbed-api:test --build-arg VERSION=${DOCKER_TAG} .
