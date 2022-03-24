@@ -2,8 +2,8 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 [![Java 11+](https://img.shields.io/badge/java-11+-blue.svg?style=flat-square)](https://www.java.com)
-[![Gradle 7.3.3+](https://img.shields.io/badge/gradle-7.3.2+-blue.svg?style=flat-square)](https://gradle.org/)
-[![GitHub Actions](https://img.shields.io/github/workflow/status/ga4gh/ga4gh-testbed-api/Tests/main)](https://github.com/ga4gh/ga4gh-testbed-api/actions)
+[![Gradle 7.3.3+](https://img.shields.io/badge/gradle-7.3.3+-blue.svg?style=flat-square)](https://gradle.org/)
+[![GitHub Actions](https://img.shields.io/github/workflow/status/ga4gh/ga4gh-testbed-api/Tests)](https://github.com/ga4gh/ga4gh-testbed-api/actions)
 [![Codecov](https://img.shields.io/codecov/c/github/ga4gh/ga4gh-testbed-api?style=flat-square)](https://app.codecov.io/gh/ga4gh/ga4gh-testbed-api)
 
 # GA4GH Testbed API
