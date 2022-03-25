@@ -117,10 +117,6 @@ public class DockerReportsTest {
             .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println("***");
-        System.out.println(response.body());
-        System.out.println(response.statusCode());
-        System.out.println("***");
 
         Assert.assertEquals(response.statusCode(), expStatus);
         if (expSuccess) {
