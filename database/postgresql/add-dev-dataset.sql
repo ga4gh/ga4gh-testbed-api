@@ -18,6 +18,17 @@ insert into organization values (
     'https://ga4gh.org'
 );
 
+insert into github_user values (
+    'ga4gh-user'
+);
+
+insert into github_user_organization values (
+    0,
+    'MEMBER',
+    'ga4gh-user',
+    'org.ga4gh'
+);
+
 insert into platform values (
     'org.ga4gh.refget.starterkit',
     'Refget Starter Kit',
@@ -65,14 +76,14 @@ insert into specification_platform values
 
 insert into report_series values (
     '1edb5213-52a2-434f-a7b8-b101fea8fb30',
-    'abc',
-    'def',
+    'k4A2I1FUJrbpN70v4FXrrAqwvcamnZyB',
+    'dcaa1ff102a989efeaebef66e950216d86160303689120e9e76d88d4a70bd003', /* plaintext token is K5pLbwScVu8rEoLLj8pRy5Wv7EXTVahn */
     'refget-compliance',
     'org.ga4gh.refget.starterkit'
 ),(
     '483382e9-f92b-466d-9427-154d56a75fcf',
-    'ghi',
-    'jkl',
+    'JQhtM8FvjgaQaNbxTFbawJTWFjbdiiSL',
+    '463bdadca28c206693339fcc5465c9885395a7e03deff93ce1e851c5561bae36', /* plaintext token is l0HiRbbpjVDKc6k3tQ2skzROB1oAP2IV */
     'rnaget-compliance',
     'org.ga4gh.rnaget.starterkit'
 );

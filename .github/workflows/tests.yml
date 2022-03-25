@@ -1,0 +1,103 @@
+name: Tests
+on: [push, pull_request, workflow_dispatch] #workflow_dispatch works only if its active in the main branch
+jobs:
+  Unit-Test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setting up JDK 12
+      uses: actions/setup-java@v2
+      with:
+        java-version: '12'
+        distribution: 'adopt' #using a specific distribution of jdk12 (AdoptOpenJDK)
+
+    - name: Setting up Gradle
+      uses: gradle/gradle-build-action@v2
+
+    - name: Setting up Gradle Wrapper
+      run: "gradle wrapper"
+
+    - name: Validating Wrapper
+      uses: gradle/wrapper-validation-action@v1
+
+    - name: Setting up the SQLite database and Make
+      run: | 
+        sqlite3 -version
+        make -version
+        make sqlite-db-refresh
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+
+    - name: Running Tests
+      run: "./gradlew test --tests=org.*"
+
+    - name: After Success Submitting Code Coverage
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      run: | #jacocoTestReport is for testing code coverage, submits the last report to the link
+        ./gradlew jacocoTestReport
+        bash <(curl -s https://codecov.io/bash)
+
+  Docker-Test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+
+    - name: Setup Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Docker Hub Login
+      uses: docker/login-action@v1
+      with: 
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+    - name: Set Docker Image Version
+      run: |
+        source ci/set-docker-image-version.sh
+        echo "version=${DOCKER_IMG_VER}" >> $GITHUB_ENV
+
+    - name: Build Docker Image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        builder: ${{ steps.buildx.outputs.name }}
+        push: true
+        tags: ga4gh/ga4gh-testbed-api:test
+        build-args: VERSION=${{ env.version }}
+        cache-from: type=gha #GitHub Actions Cache Exporter
+        cache-to: type=gha,mode=max
+
+    - name: Start Services
+      run: docker-compose up -d
+
+    - name: Service Health Check
+      uses: jtalk/url-health-check-action@v2
+      with:
+        url: http://localhost:4500/reports
+        follow-redirect: false
+        max-attempts: 6
+        retry-delay: 10s
+        retry-all: true
+
+    # - name: Setup upterm session # Using Github - SSH for debugging
+    #   uses: lhotari/action-upterm@v1
+    #   with:
+    #     ## limits ssh access and adds the ssh public key for the user which triggered the workflow
+    #     limit-access-to-actor: true
+    #     ## limits ssh access and adds the ssh public keys of the listed GitHub users
+    #     limit-access-to-users: jb-adams
+    
+    - name: Docker Test
+      run: ./gradlew test --tests=docker.*

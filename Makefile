@@ -1,8 +1,8 @@
 DOCKER_ORG := ga4gh
-DOCKER_REPO := ga4gh-testbed-infrastructure
-DOCKER_TAG := 0.1.0
+DOCKER_REPO := ga4gh-testbed-api
+DOCKER_TAG := $(shell cat build.gradle | grep "^version" | cut -f 2 -d ' ' | sed "s/'//g")
 DOCKER_IMG := ${DOCKER_ORG}/${DOCKER_REPO}:${DOCKER_TAG}
-DEVDB := ga4gh-testbed-infrastructure.dev.db
+DEVDB := ga4gh-testbed-api.dev.db
 
 Nothing:
 	@echo "No target provided. Stop"
@@ -10,18 +10,18 @@ Nothing:
 # remove local postgresql database
 .PHONY: clean-psql
 clean-psql:
-	@psql -c "drop database ga4gh_testbed_infrastructure_db;" -U postgres
+	@psql -c "drop database ga4gh_testbed_api_db;" -U postgres
 
 # create local postgresql database with tables using create-tables.sql
 .PHONY: psql-db-build
 psql-db-build:
-	@psql -c "create database ga4gh_testbed_infrastructure_db;" -U postgres
-	@psql ga4gh_testbed_infrastructure_db < database/postgresql/create-tables.sql -U postgres
+	@psql -c "create database ga4gh_testbed_api_db;" -U postgres
+	@psql ga4gh_testbed_api_db < database/postgresql/create-tables.sql -U postgres
 
 # populate the postgresql tables with test data
 .PHONY: psql-db-populate
 psql-db-populate:
-	@psql ga4gh_testbed_infrastructure_db < database/postgresql/add-dev-dataset.sql -U postgres
+	@psql ga4gh_testbed_api_db < database/postgresql/add-dev-dataset.sql -U postgres
 
 .PHONY: psql-db-build-populate
 psql-db-build-populate: psql-db-build psql-db-populate
@@ -47,4 +47,14 @@ sqlite-db-populate-dev-dataset:
 .PHONY: sqlite-db-refresh
 sqlite-db-refresh: clean-sqlite sqlite-db-build sqlite-db-populate-dev-dataset
 
+.PHONY: docker-build
+docker-build:
+	docker build -t ${DOCKER_IMG} --build-arg VERSION=${DOCKER_TAG} .
 
+.PHONY: docker-build-test
+docker-build-test:
+	docker build -t ga4gh/ga4gh-testbed-api:test --build-arg VERSION=${DOCKER_TAG} .
+
+.PHONY: docker-publish
+docker-publish:
+	docker image push ${DOCKER_IMG}
