@@ -6,8 +6,10 @@ import org.ga4gh.testbed.api.model.Report;
 import org.ga4gh.testbed.api.utils.SerializeView;
 import org.ga4gh.testbed.api.utils.hibernate.TestbedApiHibernateUtil;
 import org.ga4gh.testbed.api.utils.requesthandler.report.CreateReportHandler;
+import org.ga4gh.testbed.api.utils.requesthandler.report.DeleteReportHandler;
 import org.ga4gh.testbed.api.utils.requesthandler.report.ShowReportHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +30,9 @@ public class Reports {
 
     @Autowired
     private CreateReportHandler createReport;
+
+    @Autowired
+    private DeleteReportHandler deleteReport;
 
     @GetMapping
     @JsonView(SerializeView.ReportSimple.class)
@@ -51,5 +56,15 @@ public class Reports {
         @RequestBody Report report
     ) throws Exception {
         return createReport.prepare(reportSeriesId, reportSeriesToken, report).handleRequest();
+    }
+
+    @DeleteMapping("/{reportId:.+}")
+    @JsonView(SerializeView.ReportFull.class)
+    public Report deleteReport(
+        @PathVariable String reportId,
+        @RequestHeader("GA4GH-TestbedReportSeriesId") String reportSeriesId,
+        @RequestHeader("GA4GH-TestbedReportSeriesToken") String reportSeriesToken
+    ) throws Exception {
+        return deleteReport.prepare(reportId, reportSeriesId, reportSeriesToken).handleRequest();
     }
 }

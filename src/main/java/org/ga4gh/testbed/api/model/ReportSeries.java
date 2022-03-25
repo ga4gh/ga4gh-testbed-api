@@ -35,6 +35,14 @@ public class ReportSeries implements HibernateEntity<String> {
     @JsonView(SerializeView.Always.class)
     private String id;
 
+    @Column(name = "token_salt", nullable = false)
+    @JsonView(SerializeView.Never.class)
+    private String tokenSalt;
+
+    @Column(name = "token_hash", nullable = false)
+    @JsonView(SerializeView.Never.class)
+    private String tokenHash;
+
     @ManyToOne(fetch = FetchType.EAGER,
                cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                           CascadeType.DETACH, CascadeType.REFRESH})
