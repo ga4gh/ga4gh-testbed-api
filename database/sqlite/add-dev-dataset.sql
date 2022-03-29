@@ -88,55 +88,16 @@ insert into report_series values (
     'org.ga4gh.rnaget.starterkit'
 );
 
-insert into summary (
-    unknown,
-    passed,
-    warned,
-    failed,
-    skipped
-) values
-(
-    0,
-    10,
-    2,
-    0,
-    0
-), 
-(
-    0,
-    12,
-    0,
-    0,
-    0
-), 
-(
-    0,
-    8,
-    2,
-    2,
-    0
-), 
-(
-    0,
-    10,
-    2,
-    0,
-    0
-),
-(
-    0,
-    7,
-    2,
-    3,
-    0
-), 
-(
-    0,
-    9,
-    2,
-    0,
-    1
-);
+insert into summary (unknown, passed, warned, failed, skipped) values
+(0, 4, 1, 1, 2), /* id: 1 */ 
+(0, 0, 1, 1, 2), /* id: 2, phase: sequence */
+(0, 2, 0, 0, 0), /* id: 3, phase: metadata */
+(0, 2, 0, 0, 0), /* id: 4, phase: service-info */
+(0, 0, 0, 0, 2), /* id: 5, test: test_sequence_circular */
+(0, 0, 1, 1, 0), /* id: 6, test: test_sequence_query_by_trunc512 */
+(0, 2, 0, 0, 0), /* id: 7, test: test_get_metadata */
+(0, 1, 0, 0, 0), /* id: 8, test: test_get_service_info */
+(0, 1, 0, 0, 0); /* id: 9, test: test_service_info_circular_supported */
 
 insert into report (
     id,
@@ -155,7 +116,7 @@ insert into report (
     '{ "url": "https://testsite.ga4gh.org/api"}',
     "2021-10-20 12:00:00.000",
     "2021-10-20 12:00:20.000",
-    'UNKNOWN',
+    3, /* FAIL */
     1,
     "1edb5213-52a2-434f-a7b8-b101fea8fb30"
 );
@@ -169,27 +130,30 @@ insert into phase (
     fk_summary_id,
     fk_report_id
 ) values (
+    /* id: 1 */
     'sequence',
     'refget sequence endpoint',
     "2021-10-20 12:00:00.000",
     "2021-10-20 12:00:05.000",
-    'PASSED',
+    3, /* FAIL */
     2,
     '01d0e947-5975-4786-a755-5025fec7416d'
 ),(
+    /* id: 2 */
     'metadata',
     'refget metadata endpoint',
     "2021-10-20 12:00:05.000",
     "2021-10-20 12:00:10.000",
-    'PASSED',
+    1, /* PASS */
     3,
     '01d0e947-5975-4786-a755-5025fec7416d'
 ),(
+    /* id: 3 */ 
     'service-info',
     'refget service-info endpoint',
     "2021-10-20 12:00:10.000",
     "2021-10-20 12:00:15.000",
-    'PASSED',
+    1, /* PASS */
     4,
     '01d0e947-5975-4786-a755-5025fec7416d'
 );
@@ -203,21 +167,50 @@ insert into testbed_test (
     fk_summary_id,
     fk_phase_id
 ) values (
+    /* id: 1 */
     'test_sequence_circular',
     'Test to check if server passes all the edge cases related to circular queries',
     "2021-10-20 12:00:00.000",
     "2021-10-20 12:00:03.000",
-    'PASSED',
+    4, /* SKIP */
     5,
     1
 ),(
+    /* id: 2 */
     'test_sequence_query_by_trunc512',
     'Test to check if server returns 200 using I test sequence trunc512 and appropriate headers if the server supports trunc512',
     "2021-10-20 12:00:03.000",
     "2021-10-20 12:00:06.000",
-    'FAILED',
+    3, /* FAIL */
     6,
     1
+), (
+    /* id: 3 */
+    'test_get_metadata',
+    'Test to check if sequence metadata is retrieved from metadata endpoint',
+    "2021-10-20 12:00:03.000",
+    "2021-10-20 12:00:06.000",
+    1, /* PASS */
+    7,
+    2
+), (
+    /* id: 4 */
+    'test_get_service_info',
+    'Test to check if service info is retrieved from service info endpoint',
+    "2021-10-20 12:00:03.000",
+    "2021-10-20 12:00:06.000",
+    1, /* PASS */
+    8,
+    3
+), (
+    /* id: 5 */
+    'test_service_info_circular_supported',
+    'Test to check if circular algorithms supported',
+    "2021-10-20 12:00:03.000",
+    "2021-10-20 12:00:06.000",
+    1, /* PASS */
+    9,
+    3
 );
 
 insert into testbed_case (
@@ -229,20 +222,20 @@ insert into testbed_case (
     message,
     fk_testbed_test_id 
 ) values (
-    'case 1',
-    'test for seq 1',
+    'Sequence A circular retrieval',
+    'sequence request for circular sequence A',
     "2021-10-20 12:00:00.000",
     "2021-10-20 12:00:01.000",
-    'PASSED',
-    'server reponds as expected',
+    4, /* SKIP */
+    'test skipped because server does not support circular sequences',
     1
 ),(
-    'case 2',
-    'test for seq 2',
+    'Sequence B circular retrieval',
+    'sequence request for circular sequence B',
     "2021-10-20 12:00:01.000",
     "2021-10-20 12:00:02.000",
-    'FAILED',
-    'test case failed',
+    4, /* SKIP */
+    'test skipped because server does not support circular sequences',
     1
 );
 
@@ -255,21 +248,53 @@ insert into testbed_case (
     message,
     fk_testbed_test_id 
 ) values (
-    'case 1',
-    'test with incorrect trunc512',
+    'Incorrect trunc512 id',
+    'test get sequence with invalid trunc512 id',
     "2021-10-20 12:00:03.000",
     "2021-10-20 12:00:04.000",
-    'UNKNOWN',
-    'unknown server response',
+    3, /* FAIL */
+    'server does not respond with status code of 404',
     2
 ),(
-    'case 2',
+    'Correct trunc512 id',
     'test with correct trunc512',
     "2021-10-20 12:00:04.000",
     "2021-10-20 12:00:05.000",
-    'WARNING',
-    'server responds with a warning',
+    2, /* WARN */
+    'sequence retrieved, but slow response time',
     2
+),(
+    'Sequence A metadata',
+    'get metadata for sequence A',
+    "2021-10-20 12:00:04.000",
+    "2021-10-20 12:00:05.000",
+    1, /* PASS */
+    'server returns correct metadata for sequence A',
+    3
+),(
+    'Sequence B metadata',
+    'get metadata for sequence B',
+    "2021-10-20 12:00:04.000",
+    "2021-10-20 12:00:05.000",
+    1, /* PASS */
+    'server returns correct metadata for sequence B',
+    3
+),(
+    'Service info',
+    'get service info from service info endpoint',
+    "2021-10-20 12:00:04.000",
+    "2021-10-20 12:00:05.000",
+    1, /* PASS */
+    'server correctly returns service info from corresponding endpoint',
+    4
+),(
+    'Circular supported',
+    'determine if server indicates whether circular sequences are supported',
+    "2021-10-20 12:00:04.000",
+    "2021-10-20 12:00:05.000",
+    1, /* PASS */
+    'server does not support circular sequences',
+    5
 );
 
 insert into log_message(
