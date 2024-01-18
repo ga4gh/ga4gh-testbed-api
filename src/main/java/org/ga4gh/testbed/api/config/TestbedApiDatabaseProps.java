@@ -5,7 +5,7 @@ import org.ga4gh.starterkit.common.config.DatabaseProps;
 public class TestbedApiDatabaseProps extends DatabaseProps {
 
     public TestbedApiDatabaseProps() {
-        super();
+        System.out.println("In database config class");
         String databaseUrl = System.getenv("DBHost");
         String databasePort = System.getenv("DBPort");
         String databaseName = System.getenv("DBName");
