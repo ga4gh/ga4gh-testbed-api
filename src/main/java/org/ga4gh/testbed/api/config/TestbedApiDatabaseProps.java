@@ -11,7 +11,7 @@ public class TestbedApiDatabaseProps extends DatabaseProps {
         String databaseName = System.getenv("DBName");
         String databaseUser = System.getenv("DBUser");
         String databasePassword = System.getenv("DBPass");
-
+        System.out.println("Database"+databaseUrl);
         String jdbcUrl = "jdbc:postgresql://" + databaseUrl + ":" + databasePort + "/" + databaseName;
         setUrl(jdbcUrl);
         setUsername(databaseUser);
