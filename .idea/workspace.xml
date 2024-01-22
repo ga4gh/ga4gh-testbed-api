@@ -7,6 +7,7 @@
     <list default="true" id="2b188c94-c2c5-4a36-8419-40203e343cf9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/tests.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/tests.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +67,40 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.ga4gh-testbed-api [bootRun]">
+  <component name="RunManager" selected="Gradle.DockerReportSeriesTest">
+    <configuration name="Docker Test" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="org.ga4gh.testbed.api.app.TestbedApi" />
+      <option name="PROGRAM_PARAMETERS" value="./gradlew test" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DockerReportSeriesTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;docker.controller.DockerReportSeriesTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="ga4gh-testbed-api [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -135,12 +169,15 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Application.Docker Test" />
       <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
       <item itemvalue="Gradle.ga4gh-testbed-api [bootRun]" />
+      <item itemvalue="Gradle.DockerReportSeriesTest" />
       <item itemvalue="Gradle.ga4gh-testbed-api [bootJar]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.DockerReportSeriesTest" />
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="Gradle.ga4gh-testbed-api [bootJar]" />
       </list>
@@ -177,6 +214,11 @@
           <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ga4gh/ga4gh-starter-kit-common/0.5.6/f9b26d9224a5c54db0d30bd0b98e6077fc3673ba/ga4gh-starter-kit-common-0.5.6-sources.jar!/org/ga4gh/starterkit/common/config/DatabaseProps.java</url>
           <line>34</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/docker/controller/DockerReportSeriesTest.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
