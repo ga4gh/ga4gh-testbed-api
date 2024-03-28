@@ -78,7 +78,7 @@ public class Phase implements HibernateEntity<Long> {
     @OneToOne(cascade = CascadeType.ALL,
               orphanRemoval = true)
     @JoinColumn(name = "fk_summary_id", referencedColumnName = "id")
-    @JsonView(SerializeView.ReportFull.class)
+    @JsonView(SerializeView.ReportSimple.class)
     private Summary summary;
 
     @OneToMany(mappedBy = "phase",
@@ -89,8 +89,8 @@ public class Phase implements HibernateEntity<Long> {
     @JsonView(SerializeView.ReportFull.class)
     private List<TestbedTest> tests;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_report_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "report")
     @JsonBackReference
     @JsonView(SerializeView.Never.class)
     private Report report;

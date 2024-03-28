@@ -85,24 +85,24 @@ public class Report implements HibernateEntity<String> {
     @JsonView(SerializeView.ReportSimple.class)
     private Summary summary;
 
-    @OneToMany(
-        mappedBy = "report",
-        fetch = FetchType.LAZY,
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "report", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    @JsonView(SerializeView.ReportFull.class)
+    @JsonView(SerializeView.ReportSimple.class)
     private List<Phase> phases;
 
     @ManyToOne(
-        fetch = FetchType.EAGER,
+        fetch = FetchType.LAZY,
         cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                    CascadeType.DETACH, CascadeType.REFRESH}
     )
     @JoinColumn(name = "fk_report_series_id")
     @JsonView(SerializeView.ReportFull.class)
     private ReportSeries reportSeries;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "testbed", referencedColumnName = "id")
+    @JsonView(SerializeView.ReportSimple.class)
+    private Testbed testbed;
 
     public void loadRelations() {
         Hibernate.initialize(getPhases());

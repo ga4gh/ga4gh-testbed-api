@@ -1,22 +1,18 @@
 package org.ga4gh.testbed.api.controller;
 
 import java.util.List;
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonView;
 import org.ga4gh.testbed.api.model.Report;
+import org.ga4gh.testbed.api.utils.DTO.ReportCountDTO;
 import org.ga4gh.testbed.api.utils.SerializeView;
 import org.ga4gh.testbed.api.utils.hibernate.TestbedApiHibernateUtil;
 import org.ga4gh.testbed.api.utils.requesthandler.report.CreateReportHandler;
 import org.ga4gh.testbed.api.utils.requesthandler.report.DeleteReportHandler;
 import org.ga4gh.testbed.api.utils.requesthandler.report.ShowReportHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/reports")
@@ -38,6 +34,14 @@ public class Reports {
     @JsonView(SerializeView.ReportSimple.class)
     public List<Report> getReports() {
         return hibernateUtil.listEntityObject(Report.class);
+    }
+
+    @GetMapping(path = "/getReportsByTestbed/")
+    @JsonView(SerializeView.ReportSimple.class)
+    public Map<String, List<Report>> getReportsByTestbed() {
+        List<Report> reports = hibernateUtil.listEntityObject(Report.class);
+        Map<String, List<Report>> reportGroup = showReport.getReportsByTestbed(reports);
+        return reportGroup;
     }
 
     @GetMapping(path = "/{reportId:.+}")
@@ -67,4 +71,10 @@ public class Reports {
     ) throws Exception {
         return deleteReport.prepare(reportId, reportSeriesId, reportSeriesToken).handleRequest();
     }
+
+    @RequestMapping(value = "/reportCounts/", method = RequestMethod.GET)
+    public List<ReportCountDTO> getSubmittedReportsCount() {
+        return showReport.getSubmittedReportsCount();
+    }
+
 }
