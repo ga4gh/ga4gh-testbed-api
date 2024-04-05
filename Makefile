@@ -53,7 +53,7 @@ docker-build:
 
 .PHONY: docker-build-test
 docker-build-test:
-	docker build -t ga4gh/ga4gh-testbed-api:test --build-arg VERSION=${DOCKER_TAG} .
+	docker build -t ga4gh/ga4gh-testbed-api:${DOCKER_TAG} --build-arg VERSION=${DOCKER_TAG} .
 
 .PHONY: docker-publish
 docker-publish:

@@ -83,9 +83,19 @@ public class Testbed implements HibernateEntity<String> {
     @JsonView(SerializeView.TestbedFull.class)
     private List<TestbedVersion> testbedVersions;
 
+    @OneToMany(
+            mappedBy = "testbed",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonView(SerializeView.TestbedFull.class)
+    private List<Report> reports;
+
     public void loadRelations() {
         Hibernate.initialize(getSpecifications());
         Hibernate.initialize(getReportSeries());
         Hibernate.initialize(getTestbedVersions());
+        Hibernate.initialize(getReports());
     }
 }
