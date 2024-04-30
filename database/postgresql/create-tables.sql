@@ -175,6 +175,7 @@ CREATE TABLE IF NOT EXISTS log_message
 (
     id serial PRIMARY KEY,
     message text NOT NULL,
+    response_body text NOT NULL,
     fk_testbed_case_id integer NOT NULL,
     foreign key (fk_testbed_case_id) references testbed_case(id)
 );
