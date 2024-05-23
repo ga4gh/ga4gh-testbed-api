@@ -277,14 +277,18 @@ insert into log_message(
     fk_testbed_case_id
 ) values (
     'log message 1',
+    'response body 1',
     1
 ),(
     'log message 2',
+    'response body 2',
     2
 ),(
     'log message 3',
+    'response body 3',
     3
 ),(
     'log message 4',
+    'response body 4',
     4
 );
