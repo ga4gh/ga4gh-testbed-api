@@ -45,6 +45,8 @@ jobs:
 
   Docker-Test:
     runs-on: ubuntu-latest
+    env:
+      VERSION: 0.2.1
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -66,8 +68,7 @@ jobs:
 
     - name: Set Docker Image Version
       run: source ci/set-docker-image-version.sh && echo "version=${DOCKER_IMG_VER}" >> $GITHUB_ENV
-    - name: Print all environment variables
-      run: printenv
+    
     - name: Build Docker Image
       uses: docker/build-push-action@v2
       with:
@@ -75,7 +76,7 @@ jobs:
         builder: ${{ steps.buildx.outputs.name }}
         push: true
         tags: ga4gh/ga4gh-testbed-api:${{ env.version }}
-        build-args: VERSION=${{ env.version }}
+        build-args: VERSION=${{ env.VERSION }}
         cache-from: type=gha #GitHub Actions Cache Exporter
         cache-to: type=gha,mode=max
 
