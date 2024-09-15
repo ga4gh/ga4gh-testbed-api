@@ -1,7 +1,29 @@
 version: "3.9"
 services:
   testbed-api:
-    image: ga4gh/ga4gh-testbed-api:test
-    hostname: testbed.ga4gh.org
+    platform: linux/amd64
+    env_file: .env
+    build: .
     ports:
       - "4500:4500"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:latest
+    platform: linux/amd64
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+volumes:
+  postgres-data:
