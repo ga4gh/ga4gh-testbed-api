@@ -81,8 +81,7 @@ jobs:
     #     cache-to: type=gha,mode=max
 
     - name: Start Services
-      run: |
-        VERSION=${{ env.version }} docker compose up --build -d
+      run: export VERSION=${{ env.version }} && docker compose up --build -d
 
     - name: Service Health Check
       uses: jtalk/url-health-check-action@v2
