@@ -4,6 +4,8 @@ services:
     platform: linux/amd64
     env_file: .env
     build: .
+    args:
+      VERSION: "${VERSION}"
     ports:
       - "4500:4500"
     depends_on:
