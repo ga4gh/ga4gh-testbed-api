@@ -82,7 +82,7 @@ jobs:
 
     - name: Start Services
       run: |
-        VERSION=${{ env.version }} docker compose up -d
+        VERSION=${{ env.version }} docker compose up --build -d
 
     - name: Service Health Check
       uses: jtalk/url-health-check-action@v2
