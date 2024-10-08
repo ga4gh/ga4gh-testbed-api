@@ -81,7 +81,12 @@ jobs:
     #     cache-to: type=gha,mode=max
 
     - name: Start Services
-      run: export VERSION=${{ env.version }} && docker compose up --build -d
+      run: |
+        VERSION=${{ env.version }}
+        POSTGRES_USER=pgtest
+        POSTGRES_PASSWORD=pgtest
+        POSTGRES_DB=ga4gh_testbed_api_db
+        docker compose up --build -d
 
     - name: Service Health Check
       uses: jtalk/url-health-check-action@v2
