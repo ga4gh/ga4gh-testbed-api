@@ -82,10 +82,10 @@ jobs:
 
     - name: Start Services
       run: |
-        VERSION=${{ env.version }}
-        POSTGRES_USER=pgtest
-        POSTGRES_PASSWORD=pgtest
-        POSTGRES_DB=ga4gh_testbed_api_db
+        export VERSION=${{ env.version }}
+        export POSTGRES_USER=pgtest
+        export POSTGRES_PASSWORD=pgtest
+        export POSTGRES_DB=ga4gh_testbed_api_db
         docker compose up --build -d
 
     - name: Service Health Check
