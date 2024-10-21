@@ -46,7 +46,11 @@ jobs:
   Docker-Test:
     runs-on: ubuntu-latest
     env:
-      VERSION: 0.2.1
+      # VERSION: 0.2.1
+      POSTGRES_USER: pgtest
+      POSTGRES_PASSWORD: pgtest
+      POSTGRES_DB: ga4gh_testbed_api_db
+
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -83,9 +87,6 @@ jobs:
     - name: Start Services
       run: |
         export VERSION=${{ env.version }}
-        export POSTGRES_USER=pgtest
-        export POSTGRES_PASSWORD=pgtest
-        export POSTGRES_DB=ga4gh_testbed_api_db
         docker compose up --build -d
 
     - name: list environment variables
