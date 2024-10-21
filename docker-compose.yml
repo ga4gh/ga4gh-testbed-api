@@ -4,7 +4,7 @@ services:
     platform: linux/amd64
     env_file: .env
     environment:
-      SPRING_APPLICATION_JSON: '{"server":{"address":"0.0.0.0"}}'
+      SPRING_APPLICATION_JSON: '{"server":{"address":"0.0.0.0","port":4500}}'
     build: 
       context: .
       args:
