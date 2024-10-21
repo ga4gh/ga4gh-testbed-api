@@ -85,15 +85,19 @@ jobs:
     #     cache-to: type=gha,mode=max
 
     - name: Start Services
-      run: |
-        export VERSION=${{ env.VERSION }}
-        docker compose up --build -d
+      run: docker compose up --build -d
 
     - name: list environment variables
       run: env
 
     - name: Show Docker Compose logs
       run: docker compose logs testbed-api
+
+    - name: Wait for API to be ready
+      run: |
+        curl -o wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+        chmod +x wait-for-it.sh
+        ./wait-for-it.sh localhost:4500 --timeout=60 --strict -- echo "Service is ready"
 
     - name: Service Health Check
       uses: jtalk/url-health-check-action@v2
