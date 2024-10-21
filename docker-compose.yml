@@ -3,6 +3,8 @@ services:
   testbed-api:
     platform: linux/amd64
     env_file: .env
+    environment:
+      SPRING_APPLICATION_JSON: '{"server":{"address":"0.0.0.0"}}'
     build: 
       context: .
       args:
