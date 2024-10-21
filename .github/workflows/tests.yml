@@ -106,7 +106,7 @@ jobs:
     #     retry-all: true
 
     - name: Service Health Check Inside Container
-      run: docker-compose exec testbed-api curl --fail -sv http://localhost:4500/reports
+      run: docker compose exec testbed-api curl --fail -sv http://localhost:4500/reports
 
 
     # - name: Setup upterm session # Using Github - SSH for debugging
