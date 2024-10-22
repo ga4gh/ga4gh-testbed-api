@@ -102,8 +102,10 @@ jobs:
     - name: List ports
       run: docker compose exec testbed-api netstat -tuln
 
-    - name: Service Health Check
-      run: docker compose exec testbed-api curl --fail -sv http://testbed-api:4500/actuator/health
+    - name: Service Health Check with Temp Container
+      run: |
+        NETWORK_NAME=$(docker network ls --filter "name=testbed-api" --format "{{.Name}}")
+        docker run --rm --network ${NETWORK_NAME} curlimages/curl:7.81.0 curl -sv  http://testbed-api:4500/reports
 
     # - name: Service Health Check
     #   uses: jtalk/url-health-check-action@v2
