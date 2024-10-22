@@ -103,7 +103,7 @@ jobs:
       run: docker compose exec testbed-api netstat -tuln
 
     - name: Service Health Check
-      run: docker-compose exec testbed-api curl --fail -sv http://testbed-api:4500/actuator/health
+      run: docker compose exec testbed-api curl --fail -sv http://testbed-api:4500/actuator/health
 
     # - name: Service Health Check
     #   uses: jtalk/url-health-check-action@v2
